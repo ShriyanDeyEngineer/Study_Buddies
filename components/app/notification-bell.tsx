@@ -189,7 +189,7 @@ export function NotificationBell({
           <span className="text-sm font-medium text-ink">Notifications</span>
           <Link
             href="/notifications"
-            className="text-xs text-maroon underline underline-offset-2"
+            className="text-xs text-primary underline underline-offset-2"
             onClick={() => setOpen(false)}
           >
             See all
@@ -210,13 +210,13 @@ export function NotificationBell({
                   key={notification.id}
                   className={cn(
                     "flex items-stretch",
-                    !notification.read_at && "bg-gold-light/30",
+                    !notification.read_at && "bg-accent-light/30",
                   )}
                 >
                   <button
                     type="button"
                     onClick={() => handleClick(notification)}
-                    className="min-w-0 flex-1 px-4 py-3 text-left text-sm hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+                    className="min-w-0 flex-1 px-4 py-3 text-left text-sm hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
                   >
                     <span className="block text-ink">{message}</span>
                     <span className="mt-0.5 block text-xs text-ink-muted">
@@ -232,7 +232,7 @@ export function NotificationBell({
                       notification.read_at ? "Mark as unread" : "Mark as read"
                     }
                     title={notification.read_at ? "Mark as unread" : "Mark as read"}
-                    className="flex shrink-0 items-center px-3 text-ink-muted hover:text-maroon focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+                    className="flex shrink-0 items-center px-3 text-ink-muted hover:text-primary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
                   >
                     {notification.read_at ? (
                       <Mail aria-hidden className="h-4 w-4" />
@@ -250,7 +250,7 @@ export function NotificationBell({
             <Button
               variant="ghost"
               size="sm"
-              className="w-full text-maroon"
+              className="w-full text-primary"
               onClick={() => void markAllRead()}
             >
               Mark all as read

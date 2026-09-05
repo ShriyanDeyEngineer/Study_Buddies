@@ -136,7 +136,7 @@ export default async function CoursesPage({
       {/** Create an element that sits above the rest of the course catalog to hold the general "course" which is not part of the courses list that can be filtered */}
       <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface shadow-sm">
           <li key={courseGeneralID}>
-            <Link href={`/courses/${courseGeneralID}`} className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon">
+            <Link href={`/courses/${courseGeneralID}`} className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary">
               <span className="min-w-0">
                 <span className="font-bold text-ink text-l">{courseGeneralDeptCode + " " + courseGeneralCourseNum}</span>
                 <span className="ml-2 truncate text-sm text-ink-muted">
@@ -148,7 +148,7 @@ export default async function CoursesPage({
               <span
                 className={
                   courseGeneralGroupCount > 0
-                    ? "shrink-0 rounded-full bg-gold-light px-2.5 py-1 text-xs font-medium text-maroon"
+                    ? "shrink-0 rounded-full bg-accent-light px-2.5 py-1 text-xs font-medium text-primary"
                     : "shrink-0 text-xs text-ink-muted"
                 }
               >
@@ -178,7 +178,7 @@ export default async function CoursesPage({
               <li key={course.id}>
                 <Link
                   href={`/courses/${course.id}`}
-                  className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+                  className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
                 >
                   <span className="min-w-0">
                     <span className="font-medium text-ink">{courseCode(course)}</span>
@@ -189,7 +189,7 @@ export default async function CoursesPage({
                   <span
                     className={
                       groupCount > 0
-                        ? "shrink-0 rounded-full bg-gold-light px-2.5 py-1 text-xs font-medium text-maroon"
+                        ? "shrink-0 rounded-full bg-accent-light px-2.5 py-1 text-xs font-medium text-primary"
                         : "shrink-0 text-xs text-ink-muted"
                     }
                   >

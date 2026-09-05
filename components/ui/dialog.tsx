@@ -33,7 +33,7 @@ export function DialogContent({
         {children}
         <DialogPrimitive.Close
           aria-label="Close dialog"
-          className="absolute right-4 top-4 rounded-lg p-1 text-ink-muted hover:bg-line/60 focus-visible:outline-2 focus-visible:outline-maroon"
+          className="absolute right-4 top-4 rounded-lg p-1 text-ink-muted hover:bg-line/60 focus-visible:outline-2 focus-visible:outline-primary"
         >
           <X aria-hidden className="h-4 w-4" />
         </DialogPrimitive.Close>

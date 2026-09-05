@@ -61,8 +61,8 @@ export default function WhyPage() {
         {ARGUMENTS.map((argument) => (
           <Card key={argument.title} className="h-full">
             <CardContent>
-              <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gold-light">
-                <argument.icon aria-hidden className="h-5 w-5 text-maroon" />
+              <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent-light">
+                <argument.icon aria-hidden className="h-5 w-5 text-primary" />
               </span>
               <h2 className="font-display text-lg text-ink">{argument.title}</h2>
               <p className="mt-2 text-sm text-ink-muted">{argument.body}</p>

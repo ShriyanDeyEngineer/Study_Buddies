@@ -28,7 +28,7 @@ export default function AccessibilityPage() {
             href="https://www.w3.org/WAI/WCAG21/quickref/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-maroon underline underline-offset-2"
+            className="font-medium text-primary underline underline-offset-2"
           >
             Web Content Accessibility Guidelines (WCAG) 2.1, Level AA
           </a>
@@ -50,7 +50,7 @@ export default function AccessibilityPage() {
           Email{" "}
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="font-medium text-maroon underline underline-offset-2"
+            className="font-medium text-primary underline underline-offset-2"
           >
             {CONTACT_EMAIL}
           </a>{" "}

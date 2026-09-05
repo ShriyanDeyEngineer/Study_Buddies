@@ -54,11 +54,11 @@ export default async function AdminMessagesPage() {
                 <div className="flex flex-wrap items-center gap-2 text-xs text-ink-muted">
                   <Link
                     href={`/profile/${original.sender_id}`}
-                    className="font-medium text-maroon underline underline-offset-2"
+                    className="font-medium text-primary underline underline-offset-2"
                   >
                     {adminPersonLabel(sender?.display_name, original.sender_id)}
                   </Link>
-                  <Badge variant={original.message_kind === "group" ? "gold" : "outline"}>
+                  <Badge variant={original.message_kind === "group" ? "accent" : "outline"}>
                     {original.message_kind === "group" ? "group chat" : "DM"}
                   </Badge>
                   {formatDistanceToNow(new Date(original.created_at), { addSuffix: true })}

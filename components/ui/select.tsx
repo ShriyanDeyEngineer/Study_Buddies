@@ -23,7 +23,7 @@ export const Select = React.forwardRef<
         ref={ref}
         className={cn(
           "h-10 w-full appearance-none rounded-xl border border-line bg-surface pl-3 pr-9 text-sm text-ink",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "aria-invalid:border-danger",
           className,

@@ -28,7 +28,7 @@ export function PersonCard({ person }: { person: PersonSearchResult }) {
         <div className="min-w-0 flex-1">
           <Link
             href={`/profile/${person.id}`}
-            className="font-medium text-ink hover:underline focus-visible:outline-2 focus-visible:outline-maroon"
+            className="font-medium text-ink hover:underline focus-visible:outline-2 focus-visible:outline-primary"
           >
             {person.display_name}
           </Link>
@@ -40,7 +40,7 @@ export function PersonCard({ person }: { person: PersonSearchResult }) {
           )}
           <div className="mt-2 flex flex-wrap gap-1.5">
             {person.shared_courses > 0 && (
-              <Badge variant="gold">
+              <Badge variant="accent">
                 {pluralize(person.shared_courses, "shared class", "shared classes")}
               </Badge>
             )}

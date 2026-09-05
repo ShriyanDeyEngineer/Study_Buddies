@@ -37,13 +37,13 @@ export function GroupCard({
       <CardContent>
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-wide text-maroon">
+            <p className="text-xs font-medium uppercase tracking-wide text-primary">
               {courseLabel}
             </p>
             <h3 className="mt-0.5 truncate font-display text-lg text-ink">
               <Link
                 href={`/groups/${groupId}`}
-                className="rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon"
+                className="rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 {/* Stretch the link over the card for a big tap target. */}
                 <span className="absolute inset-0" aria-hidden="true" />

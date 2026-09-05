@@ -68,17 +68,17 @@ export function NotificationList({ notifications }: { notifications: Notificatio
         return (
           <li
             key={notification.id}
-            className={cn("flex items-stretch", !readAt && "bg-gold-light/30")}
+            className={cn("flex items-stretch", !readAt && "bg-accent-light/30")}
           >
             <button
               type="button"
               onClick={() => open(notification)}
-              className="min-w-0 flex-1 px-4 py-3 text-left hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+              className="min-w-0 flex-1 px-4 py-3 text-left hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
             >
               <span className="block text-sm text-ink">{message}</span>
               <span className="mt-0.5 block text-xs text-ink-muted">
                 {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
-                {!readAt && <span className="ml-2 font-medium text-maroon">· new</span>}
+                {!readAt && <span className="ml-2 font-medium text-primary">· new</span>}
               </span>
             </button>
             <button
@@ -86,7 +86,7 @@ export function NotificationList({ notifications }: { notifications: Notificatio
               onClick={() => toggleRead(notification)}
               aria-label={readAt ? "Mark as unread" : "Mark as read"}
               title={readAt ? "Mark as unread" : "Mark as read"}
-              className="flex shrink-0 items-center px-4 text-ink-muted hover:text-maroon focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+              className="flex shrink-0 items-center px-4 text-ink-muted hover:text-primary focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
             >
               {readAt ? (
                 <Mail aria-hidden className="h-4 w-4" />

@@ -9,7 +9,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 /**
- * cn("px-2", isActive && "bg-maroon", className)
+ * cn("px-2", isActive && "bg-primary", className)
  *
  * Combines CSS class names, dropping falsy values, and resolves Tailwind
  * conflicts so a caller's class can override a component's default

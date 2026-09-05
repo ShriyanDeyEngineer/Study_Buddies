@@ -135,7 +135,7 @@ export default async function ProfilePage({
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer nofollow"
-                        className="inline-flex items-center gap-1.5 text-sm text-maroon underline underline-offset-2"
+                        className="inline-flex items-center gap-1.5 text-sm text-primary underline underline-offset-2"
                       >
                         <LinkIcon aria-hidden className="h-3.5 w-3.5" />
                         <span className="max-w-xs truncate">
@@ -188,7 +188,7 @@ export default async function ProfilePage({
                   <li key={`${key}-${course.id}`}>
                     <Link
                       href={`/courses/${course.id}`}
-                      className="inline-block rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink hover:border-maroon focus-visible:outline-2 focus-visible:outline-maroon"
+                      className="inline-block rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink hover:border-primary focus-visible:outline-2 focus-visible:outline-primary"
                       title={course.course_name}
                     >
                       {course.department_code} {course.course_number}

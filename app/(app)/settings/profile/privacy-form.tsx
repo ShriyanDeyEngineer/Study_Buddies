@@ -86,9 +86,9 @@ export function PrivacyForm({ profile }: { profile: ProfileRow }) {
           ))}
         </ul>
 
-        <div className="mt-4 flex items-center justify-between gap-4 rounded-xl bg-gold-light/40 px-4 py-3">
+        <div className="mt-4 flex items-center justify-between gap-4 rounded-xl bg-accent-light/40 px-4 py-3">
           <div>
-            <p className="text-sm font-medium text-maroon">Study-buddy availability</p>
+            <p className="text-sm font-medium text-primary">Study-buddy availability</p>
             <p className="text-xs text-ink-muted">
               On = you appear in study-buddy discovery and can receive buddy requests.
             </p>

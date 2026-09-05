@@ -33,7 +33,7 @@ export default async function AdminGroupsPage() {
           <li key={group.id}>
             <Link
               href={`/admin/groups/${group.id}`}
-              className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+              className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
             >
               <span className="min-w-0">
                 <span className="block truncate font-medium text-ink">{group.name}</span>

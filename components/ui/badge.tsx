@@ -11,16 +11,16 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        /* gold-light works on white cards; text stays maroon for contrast */
-        gold: "bg-gold-light text-maroon",
-        maroon: "bg-maroon text-white",
+        /* accent-light works on white cards; text stays primary for contrast */
+        accent: "bg-accent-light text-primary",
+        primary: "bg-primary text-white",
         outline: "border border-line text-ink-muted",
         success: "bg-success/10 text-success",
         warning: "bg-warning/10 text-warning",
         danger: "bg-danger/10 text-danger",
       },
     },
-    defaultVariants: { variant: "gold" },
+    defaultVariants: { variant: "accent" },
   },
 );
 

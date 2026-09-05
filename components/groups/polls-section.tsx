@@ -164,9 +164,9 @@ export function PollsSection({
 
               {/* The winning slot → one click to a real meetup */}
               {best && bestCount > 0 && (
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-gold-light/40 px-3 py-2">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-accent-light/40 px-3 py-2">
                   <p className="flex items-center gap-1.5 text-sm text-ink">
-                    <Trophy aria-hidden className="h-4 w-4 shrink-0 text-gold" />
+                    <Trophy aria-hidden className="h-4 w-4 shrink-0 text-accent" />
                     <span>
                       <span className="font-medium">
                         {format(new Date(best.starts_at), "EEE, MMM d · h:mm a")}

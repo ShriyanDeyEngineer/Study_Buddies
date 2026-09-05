@@ -4,7 +4,7 @@
  * WHAT YOU SEE: days across the top, half-hour times down the side. Each
  * cell is one 30-minute slot. Cells are shaded by how many members said
  * they're free then (a heat map — darker = more people), and the cells
- * YOU marked get a maroon outline. Hover any cell to see who's free.
+ * YOU marked get a primary outline. Hover any cell to see who's free.
  *
  * HOW YOU VOTE: press on a cell and drag — every cell in the rectangle
  * you sweep gets painted. The first cell decides the mode: start on an
@@ -396,10 +396,10 @@ export function AvailabilityGrid({
                       onKeyDown={(e) => onCellKey(e, id)}
                       className={cn(
                         ROW_H,
-                        "border-b border-l border-line/60 transition-colors focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon",
+                        "border-b border-l border-line/60 transition-colors focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary",
                         isHour ? "border-b-line" : "border-b-line/40",
                         shade(count),
-                        isMine && "shadow-[inset_0_0_0_2px_var(--color-maroon)]",
+                        isMine && "shadow-[inset_0_0_0_2px_var(--color-primary)]",
                         disabled ? "cursor-default" : "cursor-pointer",
                       )}
                     />

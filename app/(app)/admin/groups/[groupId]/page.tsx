@@ -115,7 +115,7 @@ export default async function AdminGroupPage({
     <div>
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-sm font-medium uppercase tracking-wide text-maroon">
+          <p className="text-sm font-medium uppercase tracking-wide text-primary">
             {courseCode(group.courses)} · read-only observation
           </p>
           <h2 className="break-words font-display text-2xl text-ink">{group.name}</h2>
@@ -174,7 +174,7 @@ export default async function AdminGroupPage({
                     {nameOf(member.user_id)}
                   </Link>
                   {member.user_id === group.manager_id && (
-                    <Crown aria-label="Manager" className="h-3.5 w-3.5 shrink-0 text-maroon" />
+                    <Crown aria-label="Manager" className="h-3.5 w-3.5 shrink-0 text-primary" />
                   )}
                   <span className="ml-auto shrink-0 text-xs text-ink-muted">
                     joined {formatDistanceToNow(new Date(member.joined_at), { addSuffix: true })}
@@ -223,7 +223,7 @@ export default async function AdminGroupPage({
                         href={resource.content}
                         target="_blank"
                         rel="noopener noreferrer nofollow"
-                        className="mt-0.5 flex max-w-full items-center gap-1 text-maroon underline underline-offset-2"
+                        className="mt-0.5 flex max-w-full items-center gap-1 text-primary underline underline-offset-2"
                       >
                         <span className="truncate">{resource.content}</span>
                         <ExternalLink aria-hidden className="h-3 w-3 shrink-0" />

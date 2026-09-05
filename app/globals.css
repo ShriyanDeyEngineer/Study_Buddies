@@ -6,16 +6,30 @@
  * use. If you use a color that is not in this list, you are off-brand —
  * add a token here first and talk to the team.
  *
- * The palette is University of Minnesota–inspired (maroon + gold), but we
- * deliberately do NOT use official UMN artwork or trademarks anywhere.
+ * The palette is forest green + clay. It is deliberately NOT primary and
+ * accent: the University asked us not to use its colors, since the pairing
+ * reads as an official UMN site. We use no UMN artwork or trademarks
+ * anywhere either. Do not reintroduce primary/accent.
  *
- * CONTRAST RULE (do not break this): never put gold text — or a gold
- * outline/ring — on the cream/surface/line background; it fails WCAG AA
- * and (for rings) the 3:1 non-text minimum. Gold is only readable on
- * maroon/maroon-dark. That's why the default focus ring below is maroon
- * (correct on the cream/white surfaces nearly everything renders on) with
- * gold used only as a per-element override on the few maroon-background
- * spots (the marketing hero buttons, the footer links).
+ * TOKENS ARE SEMANTIC, not color names (primary / accent, not forest /
+ * clay) — so the next palette change is four values here and nothing
+ * else.
+ *
+ * CONTRAST RULE (do not break this). Measured ratios, not guesses:
+ *   - accent on cream        3.35:1  → fills and large text only, never body copy
+ *   - accent on primary      2.78:1  → NEVER. Use accent-light instead.
+ *   - accent-light on primary 5.56:1 → this is the on-dark accent colour
+ *   - ink on accent           4.86:1 → correct for accent-filled buttons
+ *   - white on primary        9.98:1
+ * So: ACCENT IS A FILL, ACCENT-LIGHT IS THE INK ON DARK. Anything sitting
+ * ON primary/primary-dark (the hero highlight, the footer links, the dark
+ * logo lockup, focus rings over those areas) uses accent-light. The
+ * default focus ring is primary, correct on the cream/white surfaces
+ * nearly everything renders on.
+ *
+ * NOTE this inverted from the old maroon/gold palette, where gold on
+ * maroon measured 7.57:1 and was safe as text. Clay on forest is not —
+ * do not copy that old pattern back in.
  * All interactive elements must meet a 4.5:1 contrast ratio.
  *
  * Touch this file to: add a design token, adjust global element defaults,
@@ -25,19 +39,19 @@
 
 @theme {
   /* ── Brand colors ─────────────────────────────────────────────────── */
-  --color-maroon: #7a0019; /* primary brand: headers, primary buttons,  */
+  --color-primary: #1f4a3d; /* forest green: headers, primary buttons,  */
                             /* and the default focus ring (see below)   */
-  --color-maroon-dark: #5b0013; /* hover states, footer background          */
-  --color-gold: #ffcc33; /* accents, CTAs; focus rings ONLY where the */
-                          /* surrounding background is maroon          */
-  --color-gold-light: #ffde7a; /* badges, subtle highlights                */
+  --color-primary-dark: #143026; /* hover states, footer background          */
+  --color-accent: #d2694a; /* clay: accents, CTAs; focus rings ONLY    */
+                          /* where the background is primary           */
+  --color-accent-light: #edb59f; /* badges, subtle highlights                */
 
   /* ── Surfaces & text ──────────────────────────────────────────────── */
-  --color-cream: #fffaf0; /* page background                          */
+  --color-cream: #faf7f2; /* page background (warm sand)              */
   --color-surface: #ffffff; /* cards                                    */
   --color-ink: #1a1a1a; /* body text                                */
   --color-ink-muted: #6b6b6b; /* secondary text                           */
-  --color-line: #ede6dc; /* borders                                  */
+  --color-line: #e9e2d8; /* borders                                  */
 
   /* ── Semantic status colors ───────────────────────────────────────── */
   /* Darker ("700-step") shades, not the more common brighter 600-step —
@@ -74,15 +88,15 @@
   }
 
   /* Every keyboard-focused element gets a visible ring the accessibility
-     spec requires. Maroon is the default because nearly every surface in
-     the app is cream/white (maroon clears 10:1+ there; gold only clears
+     spec requires. Primary is the default because nearly every surface in
+     the app is cream/white (primary clears 10:1+ there; accent only clears
      ~1.5:1 and fails the 3:1 minimum for a non-text UI indicator). The
-     few elements that sit directly on a maroon/maroon-dark background
-     (marketing hero buttons, footer links) override back to gold
+     few elements that sit directly on a primary/primary-dark background
+     (marketing hero buttons, footer links) override back to accent
      per-element — see the CONTRAST RULE note above. Components can layer
      their own ring color on top, but nothing may remove focus visibility. */
   :focus-visible {
-    outline: 2px solid var(--color-maroon);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 }

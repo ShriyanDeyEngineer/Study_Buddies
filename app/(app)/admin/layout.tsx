@@ -36,7 +36,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link
               key={section.href}
               href={section.href}
-              className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink hover:border-maroon hover:text-maroon focus-visible:outline-2 focus-visible:outline-maroon"
+              className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-primary"
             >
               {section.label}
             </Link>

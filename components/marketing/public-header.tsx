@@ -23,7 +23,7 @@ export function PublicHeader() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:gap-x-6">
         <Link
           href="/"
-          className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-maroon"
+          className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
           {/* One size down on phones so the auth buttons fit beside it. */}
           <LogoLockup className="text-base sm:text-xl" />
@@ -37,7 +37,7 @@ export function PublicHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded text-sm font-medium text-ink-muted hover:text-maroon focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-maroon"
+              className="rounded text-sm font-medium text-ink-muted hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
               {link.label}
             </Link>

@@ -45,8 +45,8 @@ export function InvitationBanner({
   }
 
   return (
-    <div className="rounded-xl bg-gold-light/50 p-4 text-center">
-      <p className="flex items-center justify-center gap-2 text-sm font-medium text-maroon">
+    <div className="rounded-xl bg-accent-light/50 p-4 text-center">
+      <p className="flex items-center justify-center gap-2 text-sm font-medium text-primary">
         <MailOpen aria-hidden className="h-4 w-4" />
         {inviterName ?? "A member"} invited you to this group
       </p>

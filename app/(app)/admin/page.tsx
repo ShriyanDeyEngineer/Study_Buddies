@@ -66,7 +66,7 @@ export default async function AdminReportsPage() {
             <CardContent className="p-4">
               <p className="font-display text-2xl text-ink">{stat.value}</p>
               {stat.href ? (
-                <Link href={stat.href} className="text-sm text-maroon underline underline-offset-2">
+                <Link href={stat.href} className="text-sm text-primary underline underline-offset-2">
                   {stat.label}
                 </Link>
               ) : (
@@ -98,7 +98,7 @@ export default async function AdminReportsPage() {
                       <p className="text-sm text-ink">
                         <Link
                           href={`/profile/${report.reported_user_id}`}
-                          className="font-medium text-maroon underline underline-offset-2"
+                          className="font-medium text-primary underline underline-offset-2"
                         >
                           {adminPersonLabel(reported?.display_name, report.reported_user_id)}
                         </Link>{" "}

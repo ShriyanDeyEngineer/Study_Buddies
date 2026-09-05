@@ -1,7 +1,7 @@
 /**
  * Group chat panel (spec §5.8): realtime delivery, full history in
  * chronological order with date separators, own messages right-aligned
- * in maroon, a live character counter that blocks over-limit sends,
+ * in primary, a live character counter that blocks over-limit sends,
  * auto-scroll with a "New messages ↓" pill when scrolled up.
  *
  * Realtime notes (each guards a real bug — spec §8/§9):
@@ -299,7 +299,7 @@ export function GroupChat({
                       <div
                         className={cn(
                           "inline-block whitespace-pre-wrap break-words rounded-xl px-3 py-2 text-left text-sm",
-                          mine ? "bg-maroon text-white" : "bg-cream text-ink",
+                          mine ? "bg-primary text-white" : "bg-cream text-ink",
                         )}
                       >
                         {message.content}

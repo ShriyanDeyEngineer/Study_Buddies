@@ -71,7 +71,7 @@ export default async function CourseDetailPage({
       {existing && (
         <p
           role="status"
-          className="mb-4 rounded-xl bg-gold-light/60 px-4 py-2.5 text-sm text-maroon"
+          className="mb-4 rounded-xl bg-accent-light/60 px-4 py-2.5 text-sm text-primary"
         >
           Good news — that course was already in the catalog. Here it is.
         </p>
@@ -79,7 +79,7 @@ export default async function CourseDetailPage({
 
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-sm font-medium uppercase tracking-wide text-maroon">
+          <p className="text-sm font-medium uppercase tracking-wide text-primary">
             {courseCode(course)}
           </p>
           <h1 className="break-words font-display text-3xl text-ink">{course.course_name}</h1>
@@ -141,7 +141,7 @@ export default async function CourseDetailPage({
                     <Card>
                       <CardContent className="flex items-center justify-between gap-4">
                         <div className="min-w-0">
-                          <Link href={`/groups/${group.id}`} className="truncate font-display text-lg text-ink hover:underline focus-visible:outline-2 focus-visible:outline-maroon">
+                          <Link href={`/groups/${group.id}`} className="truncate font-display text-lg text-ink hover:underline focus-visible:outline-2 focus-visible:outline-primary">
                             {group.name}
                           </Link>
                           <div className="mt-1.5 flex items-center gap-3 text-sm text-ink-muted">

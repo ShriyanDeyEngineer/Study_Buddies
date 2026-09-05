@@ -130,7 +130,7 @@ export function OnboardingWizard({
               key={i}
               className={cn(
                 "h-1.5 flex-1 rounded-full",
-                i <= step ? "bg-maroon" : "bg-line",
+                i <= step ? "bg-primary" : "bg-line",
               )}
             />
           ))}
