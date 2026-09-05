@@ -190,7 +190,7 @@ export function DmThread({
         <Link
           href="/messages"
           aria-label="Back to all messages"
-          className="rounded-lg p-1 text-ink-muted hover:bg-cream focus-visible:outline-2 focus-visible:outline-maroon"
+          className="rounded-lg p-1 text-ink-muted hover:bg-cream focus-visible:outline-2 focus-visible:outline-primary"
         >
           <ArrowLeft aria-hidden className="h-5 w-5" />
         </Link>
@@ -247,7 +247,7 @@ export function DmThread({
                     <div
                       className={cn(
                         "inline-block whitespace-pre-wrap break-words rounded-xl px-3 py-2 text-left text-sm",
-                        mine ? "bg-maroon text-white" : "bg-cream text-ink",
+                        mine ? "bg-primary text-white" : "bg-cream text-ink",
                       )}
                     >
                       {message.content}

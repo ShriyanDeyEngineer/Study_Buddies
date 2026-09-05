@@ -1,6 +1,6 @@
 /**
  * User avatar — profile picture if one exists, otherwise the user's
- * initials on a gold circle. Used everywhere a person appears (chat,
+ * initials on a accent circle. Used everywhere a person appears (chat,
  * member lists, search results, headers).
  *
  * Plain <img> instead of next/image on purpose: avatars are tiny, appear
@@ -44,7 +44,7 @@ export function Avatar({
     <span
       aria-hidden="true"
       className={cn(
-        "flex shrink-0 select-none items-center justify-center rounded-full bg-gold-light font-semibold text-maroon",
+        "flex shrink-0 select-none items-center justify-center rounded-full bg-accent-light font-semibold text-primary",
         SIZES[size],
         className,
       )}

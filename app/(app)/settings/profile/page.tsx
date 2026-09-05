@@ -24,7 +24,7 @@ export default async function ProfileSettingsPage() {
         What you share here is what classmates see on{" "}
         <Link
           href={`/profile/${typedProfile.id}`}
-          className="text-maroon underline underline-offset-2"
+          className="text-primary underline underline-offset-2"
         >
           your profile
         </Link>

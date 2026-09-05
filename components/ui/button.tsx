@@ -4,8 +4,8 @@
  * consistently.
  *
  * Variants:
- *   primary   — maroon background, white text (the main action on a page)
- *   secondary — gold background, maroon text (supporting CTAs)
+ *   primary   — primary background, white text (the main action on a page)
+ *   secondary — accent background, primary text (supporting CTAs)
  *   outline   — bordered, transparent (neutral actions)
  *   ghost     — borderless (toolbar/icon actions)
  *   danger    — red (destructive actions: remove, disband, block)
@@ -25,13 +25,13 @@ const buttonVariants = cva(
   // Base styles shared by every variant. The focus ring is an
   // accessibility requirement — do not remove it.
   "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-colors " +
-    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon " +
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary " +
     "disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap cursor-pointer",
   {
     variants: {
       variant: {
-        primary: "bg-maroon text-white hover:bg-maroon-dark",
-        secondary: "bg-gold text-maroon hover:bg-gold-light",
+        primary: "bg-primary text-white hover:bg-primary-dark",
+        secondary: "bg-accent text-primary hover:bg-accent-light",
         outline: "border border-line bg-surface text-ink hover:bg-cream",
         ghost: "text-ink hover:bg-line/50",
         danger: "bg-danger text-white hover:bg-danger/90",

@@ -69,28 +69,28 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="bg-maroon text-white">
+      <section className="bg-primary text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-20 text-center sm:py-28">
-          <BuddiesLogo className="h-20 w-20 text-gold" />
+          <BuddiesLogo className="h-20 w-20 text-accent-light" />
           <h1 className="max-w-2xl font-display text-4xl leading-tight sm:text-5xl">
             Find Your Study Buddies
           </h1>
           <p className="mt-4 max-w-xl text-lg text-white/85">
             Find study partners and join or create study groups for your UMN courses.
-            <span className="font-bold text-gold"> It's FREE to use</span>, built by students, for students.
+            <span className="font-bold text-accent-light"> It's FREE to use</span>, built by students, for students.
           </p>
-          {/* Both buttons sit directly on this section's maroon
+          {/* Both buttons sit directly on this section's primary
               background, so — unlike the rest of the app — they keep the
-              gold focus ring instead of the site-wide maroon default: a
-              maroon ring would vanish here. */}
+              accent focus ring instead of the site-wide primary default: a
+              primary ring would vanish here. */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild variant="secondary" size="lg" className="focus-visible:outline-gold">
+            <Button asChild variant="secondary" size="lg" className="focus-visible:outline-accent-light">
               <Link href="/register">Get Started</Link>
             </Button>
             <Button
               asChild
               size="lg"
-              className="border border-white/40 bg-transparent text-white hover:bg-white/10 focus-visible:outline-gold"
+              className="border border-white/40 bg-transparent text-white hover:bg-white/10 focus-visible:outline-accent-light"
             >
               <Link href="#how-it-works">See How it Works</Link>
             </Button>
@@ -111,7 +111,7 @@ export default function HomePage() {
                 <CardContent>
                   <span
                     aria-hidden="true"
-                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-gold font-display text-lg text-maroon"
+                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-accent font-display text-lg text-primary"
                   >
                     {index + 1}
                   </span>
@@ -133,8 +133,8 @@ export default function HomePage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature) => (
               <div key={feature.title} className="flex gap-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-light">
-                  <feature.icon aria-hidden className="h-5 w-5 text-maroon" />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-light">
+                  <feature.icon aria-hidden className="h-5 w-5 text-primary" />
                 </span>
                 <div>
                   <h3 className="font-medium text-ink">{feature.title}</h3>

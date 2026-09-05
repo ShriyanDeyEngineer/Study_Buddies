@@ -68,9 +68,9 @@ export function BuddiesLogo({ className }: { className?: string }) {
 }
 
 /**
- * Logo + wordmark lockup used in headers. The `dark` variant is for maroon
- * backgrounds (white text, gold mark); the default is for light
- * backgrounds (maroon text and mark).
+ * Logo + wordmark lockup used in headers. The `dark` variant is for primary
+ * backgrounds (white text, accent mark); the default is for light
+ * backgrounds (primary text and mark).
  */
 export function LogoLockup({
   dark = false,
@@ -83,13 +83,13 @@ export function LogoLockup({
     <span
       className={cn(
         "inline-flex items-center gap-2 font-display text-xl leading-none",
-        dark ? "text-white" : "text-maroon",
+        dark ? "text-white" : "text-primary",
         className,
       )}
     >
-      <BuddiesLogo className={cn("h-[1.35em] w-[1.35em]", dark ? "text-gold" : "text-maroon")} />
+      <BuddiesLogo className={cn("h-[1.35em] w-[1.35em]", dark ? "text-accent-light" : "text-primary")} />
       <span>
-        <span className={dark ? "text-gold" : ""}>Study Buddies</span>
+        <span className={dark ? "text-accent-light" : ""}>Study Buddies</span>
       </span>
     </span>
   );

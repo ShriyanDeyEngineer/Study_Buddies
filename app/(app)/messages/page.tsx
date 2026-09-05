@@ -45,7 +45,7 @@ export default async function MessagesPage() {
             <li key={conversation.other_id}>
               <Link
                 href={`/messages/${conversation.other_id}`}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-maroon"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-cream focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
               >
                 <Avatar
                   src={conversation.avatar_url}
@@ -82,7 +82,7 @@ export default async function MessagesPage() {
                 </span>
                 {conversation.unread_count > 0 && (
                   <span
-                    className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-maroon px-1.5 text-[11px] font-semibold text-white"
+                    className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-semibold text-white"
                     aria-label={`${conversation.unread_count} unread`}
                   >
                     {conversation.unread_count > 99 ? "99+" : conversation.unread_count}

@@ -18,8 +18,8 @@ export const Switch = React.forwardRef<
       ref={ref}
       className={cn(
         "inline-flex h-6 w-10 shrink-0 items-center rounded-full border border-transparent transition-colors",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon",
-        "data-[state=checked]:bg-maroon data-[state=unchecked]:bg-line",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "data-[state=checked]:bg-primary data-[state=unchecked]:bg-line",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}

@@ -126,7 +126,7 @@ export default async function GroupPage({
       <div className="mx-auto max-w-lg">
         <Card>
           <CardContent className="text-center">
-            <p className="text-sm font-medium uppercase tracking-wide text-maroon">
+            <p className="text-sm font-medium uppercase tracking-wide text-primary">
               {courseCode(group.courses)}
             </p>
             <h1 className="mt-1 break-words font-display text-3xl text-ink">{group.name}</h1>
@@ -304,7 +304,7 @@ export default async function GroupPage({
     <div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-sm font-medium uppercase tracking-wide text-maroon">
+          <p className="text-sm font-medium uppercase tracking-wide text-primary">
             {courseCode(group.courses)} · {group.courses.course_name}
           </p>
           <h1 className="break-words font-display text-3xl text-ink">{group.name}</h1>
@@ -321,7 +321,7 @@ export default async function GroupPage({
           {isManager && (
             <a
               href={`/groups/${group.id}/settings`}
-              className="text-sm font-medium text-maroon underline underline-offset-2"
+              className="text-sm font-medium text-primary underline underline-offset-2"
             >
               Group settings
             </a>

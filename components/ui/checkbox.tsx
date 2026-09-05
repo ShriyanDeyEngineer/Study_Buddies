@@ -19,8 +19,8 @@ export const Checkbox = React.forwardRef<
       ref={ref}
       className={cn(
         "h-4.5 w-4.5 shrink-0 rounded border border-line bg-surface",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon",
-        "data-[state=checked]:border-maroon data-[state=checked]:bg-maroon data-[state=checked]:text-white",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-white",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}

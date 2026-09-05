@@ -100,7 +100,7 @@ export function JoinButton({
       );
     case "manager":
       return (
-        <Badge variant="gold">
+        <Badge variant="accent">
           <Crown aria-hidden className="h-3 w-3" />
           {JOIN_STATE_LABELS.manager}
         </Badge>

@@ -41,7 +41,7 @@ export default async function GroupSettingsPage({
 
   return (
     <div className="mx-auto max-w-xl">
-      <p className="text-sm font-medium uppercase tracking-wide text-maroon">
+      <p className="text-sm font-medium uppercase tracking-wide text-primary">
         {courseCode(group.courses)}
       </p>
       <h1 className="font-display text-3xl text-ink">Group settings</h1>

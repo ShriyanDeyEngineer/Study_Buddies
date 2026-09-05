@@ -37,7 +37,7 @@ export default async function RegisterPage({
 
         <p className="mt-6 text-center text-sm text-ink-muted">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-maroon underline underline-offset-2">
+          <Link href="/login" className="font-medium text-primary underline underline-offset-2">
             Sign in
           </Link>.
         </p>

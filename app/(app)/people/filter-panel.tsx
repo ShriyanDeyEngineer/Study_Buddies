@@ -198,7 +198,7 @@ export function FilterPanel({
                 setQuery("");
                 router.push("/people");
               }}
-              className="text-sm font-medium text-maroon underline underline-offset-2"
+              className="text-sm font-medium text-primary underline underline-offset-2"
             >
               Clear all
             </button>
@@ -211,13 +211,13 @@ export function FilterPanel({
 
 function Chip({ label, onRemove }: { label: string; onRemove: () => void }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-gold-light py-1 pl-3 pr-1.5 text-xs font-medium text-maroon">
+    <span className="inline-flex items-center gap-1 rounded-full bg-accent-light py-1 pl-3 pr-1.5 text-xs font-medium text-primary">
       {label}
       <button
         type="button"
         onClick={onRemove}
         aria-label={`Remove filter ${label}`}
-        className="rounded-full p-2 hover:bg-gold focus-visible:outline-2 focus-visible:outline-maroon"
+        className="rounded-full p-2 hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
       >
         <X aria-hidden className="h-3 w-3" />
       </button>
@@ -250,10 +250,10 @@ function MultiSelectPopover({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className={cn(selectedCount > 0 && "border-maroon")}>
+        <Button variant="outline" size="sm" className={cn(selectedCount > 0 && "border-primary")}>
           {label}
           {selectedCount > 0 && (
-            <span className="rounded-full bg-maroon px-1.5 text-[10px] text-white">
+            <span className="rounded-full bg-primary px-1.5 text-[10px] text-white">
               {selectedCount}
             </span>
           )}

@@ -150,7 +150,7 @@ export function CourseListManager({
                               <span className="font-medium text-ink">{courseCode(course)}</span>{" "}
                               <span className="text-ink-muted">{course.course_name}</span>
                             </span>
-                            <span className="text-xs text-maroon">
+                            <span className="text-xs text-primary">
                               {already ? "Added" : "+ Add"}
                             </span>
                           </button>
@@ -178,7 +178,7 @@ export function CourseListManager({
                             type="button"
                             onClick={() => void setEnrollment(course.id, list.key, false)}
                             aria-label={`Remove ${courseCode(course)} from "${list.title}"`}
-                            className="rounded-full p-2 text-ink-muted hover:text-danger focus-visible:outline-2 focus-visible:outline-maroon"
+                            className="rounded-full p-2 text-ink-muted hover:text-danger focus-visible:outline-2 focus-visible:outline-primary"
                           >
                             <X aria-hidden className="h-3.5 w-3.5" />
                           </button>

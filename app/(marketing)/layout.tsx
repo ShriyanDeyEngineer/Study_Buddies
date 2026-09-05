@@ -13,7 +13,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
           and nav links instead of tabbing through them on every page. */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-maroon focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
       >
         Skip to main content
       </a>

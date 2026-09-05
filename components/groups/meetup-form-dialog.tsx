@@ -147,7 +147,7 @@ export function MeetupFormDialog({
               <Label htmlFor="meetup-duration" className="mb-0">
                 How long?
               </Label>
-              <span className="text-sm font-medium text-maroon" aria-live="polite">
+              <span className="text-sm font-medium text-primary" aria-live="polite">
                 {formatDuration(duration)}
               </span>
             </div>
@@ -166,7 +166,7 @@ export function MeetupFormDialog({
               aria-valuetext={formatDuration(duration)}
               aria-invalid={!!state.fieldErrors?.duration_minutes}
               aria-describedby="meetup-duration-error"
-              className="w-full accent-maroon"
+              className="w-full accent-primary"
             />
             <div className="flex justify-between text-xs text-ink-muted">
               <span>15 min</span>

@@ -98,7 +98,7 @@ export function ResourcesPanel({
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="flex items-center gap-1.5 font-medium text-ink">
-                      <Icon aria-hidden className="h-4 w-4 shrink-0 text-maroon" />
+                      <Icon aria-hidden className="h-4 w-4 shrink-0 text-primary" />
                       <span className="min-w-0 break-words">{resource.title}</span>
                     </p>
                     {resource.kind === "link" ? (
@@ -106,7 +106,7 @@ export function ResourcesPanel({
                         href={resource.content}
                         target="_blank"
                         rel="noopener noreferrer nofollow"
-                        className="mt-1 inline-flex max-w-full items-center gap-1 text-sm text-maroon underline underline-offset-2"
+                        className="mt-1 inline-flex max-w-full items-center gap-1 text-sm text-primary underline underline-offset-2"
                       >
                         <span className="truncate">{resource.content}</span>
                         <ExternalLink aria-hidden className="h-3.5 w-3.5 shrink-0" />
@@ -223,7 +223,7 @@ function AddResourceDialog({ groupId }: { groupId: string }) {
                 className={cn(
                   "flex items-center justify-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-medium",
                   kind === value
-                    ? "border-maroon bg-maroon text-white"
+                    ? "border-primary bg-primary text-white"
                     : "border-line bg-surface text-ink-muted hover:text-ink",
                 )}
               >

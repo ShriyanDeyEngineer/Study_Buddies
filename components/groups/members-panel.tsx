@@ -88,8 +88,8 @@ export function MembersPanel({
 
       {/* Manager-only: the request queue. */}
       {isManager && visibleRequests.length > 0 && (
-        <div className="rounded-xl bg-gold-light/40 p-3">
-          <h3 className="mb-2 text-sm font-medium text-maroon">
+        <div className="rounded-xl bg-accent-light/40 p-3">
+          <h3 className="mb-2 text-sm font-medium text-primary">
             Waiting to join ({visibleRequests.length})
           </h3>
           <ul className="space-y-2">
@@ -146,7 +146,7 @@ export function MembersPanel({
               </div>
               {isRowManager && (
                 <span title="Group manager" aria-label="Group manager">
-                  <Crown aria-hidden className="h-4 w-4 text-maroon" fill="currentColor" />
+                  <Crown aria-hidden className="h-4 w-4 text-primary" fill="currentColor" />
                 </span>
               )}
               {/* Manager can remove anyone but themselves (they leave via

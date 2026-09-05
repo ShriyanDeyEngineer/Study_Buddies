@@ -186,14 +186,14 @@ export function CreateGroupForm({
                 Who can join?
               </legend>
               <div className="space-y-2">
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-3 has-checked:border-maroon has-checked:bg-cream/60">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-3 has-checked:border-primary has-checked:bg-cream/60">
                   <input
                     type="radio"
                     name="mode"
                     value="open"
                     defaultChecked
                     aria-describedby="mode-error"
-                    className="mt-1 accent-maroon"
+                    className="mt-1 accent-primary"
                   />
                   <span>
                     <span className="block text-sm font-medium text-ink">Open &#40;Recommended&#41;</span>
@@ -202,13 +202,13 @@ export function CreateGroupForm({
                     </span>
                   </span>
                 </label>
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-3 has-checked:border-maroon has-checked:bg-cream/60">
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-3 has-checked:border-primary has-checked:bg-cream/60">
                   <input
                     type="radio"
                     name="mode"
                     value="closed"
                     aria-describedby="mode-error"
-                    className="mt-1 accent-maroon"
+                    className="mt-1 accent-primary"
                   />
                   <span>
                     <span className="block text-sm font-medium text-ink">Closed</span>

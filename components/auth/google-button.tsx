@@ -75,7 +75,7 @@ export function GoogleButton({
             href="/terms_of_service"
             target="_self"
             rel="noopener"
-            className="font-medium text-maroon underline underline-offset-2"
+            className="font-medium text-primary underline underline-offset-2"
           >
             Terms of Service
           </Link>
@@ -84,7 +84,7 @@ export function GoogleButton({
             href="/privacy_policy"
             target="_self"
             rel="noopener"
-            className="font-medium text-maroon underline underline-offset-2"
+            className="font-medium text-primary underline underline-offset-2"
           >
             Privacy Policy
           </Link>
@@ -93,7 +93,7 @@ export function GoogleButton({
             href="/communityRulesGuidelines"
             target="_self"
             rel="noopener"
-            className="font-medium text-maroon underline underline-offset-2"
+            className="font-medium text-primary underline underline-offset-2"
           >
             Community Guidelines
           </Link>

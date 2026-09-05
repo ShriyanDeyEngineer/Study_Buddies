@@ -70,21 +70,21 @@ export function SuspendedScreen({
 export function TermsUpdatedScreen() {
   return (
     <Shell>
-      <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-maroon/10">
-        <ScrollText aria-hidden className="h-7 w-7 text-maroon" />
+      <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+        <ScrollText aria-hidden className="h-7 w-7 text-primary" />
       </span>
       <h1 className="font-display text-2xl text-ink">We&rsquo;ve updated our terms</h1>
       <p className="mt-2 text-sm text-ink-muted">
         Our{" "}
-        <Link href="/terms_of_service" target="_blank" rel="noopener" className="font-medium text-maroon underline underline-offset-2">
+        <Link href="/terms_of_service" target="_blank" rel="noopener" className="font-medium text-primary underline underline-offset-2">
           Terms of Service
         </Link>
         ,{" "}
-        <Link href="/privacy_policy" target="_blank" rel="noopener" className="font-medium text-maroon underline underline-offset-2">
+        <Link href="/privacy_policy" target="_blank" rel="noopener" className="font-medium text-primary underline underline-offset-2">
           Privacy Policy
         </Link>
         , and{" "}
-        <Link href="/communityRulesGuidelines" target="_blank" rel="noopener" className="font-medium text-maroon underline underline-offset-2">
+        <Link href="/communityRulesGuidelines" target="_blank" rel="noopener" className="font-medium text-primary underline underline-offset-2">
           Community Guidelines
         </Link>{" "}
         have changed since you last accepted them. Please review them and accept

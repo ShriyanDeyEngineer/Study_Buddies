@@ -28,11 +28,11 @@ const TYPE_LABEL: Record<ContentFlagRow["content_type"], string> = {
 };
 const TYPE_BADGE: Record<
   ContentFlagRow["content_type"],
-  "gold" | "outline" | "maroon"
+  "accent" | "outline" | "primary"
 > = {
-  group_message: "gold",
+  group_message: "accent",
   direct_message: "outline",
-  group_resource: "maroon",
+  group_resource: "primary",
 };
 
 export default async function AdminFlagsPage() {
@@ -107,7 +107,7 @@ export default async function AdminFlagsPage() {
                           posted by{" "}
                           <Link
                             href={`/profile/${flag.content_author_id}`}
-                            className="font-medium text-maroon underline underline-offset-2"
+                            className="font-medium text-primary underline underline-offset-2"
                           >
                             {adminPersonLabel(author?.display_name, flag.content_author_id)}
                           </Link>
@@ -138,7 +138,7 @@ export default async function AdminFlagsPage() {
                       flagged by{" "}
                       <Link
                         href={`/profile/${flag.flagger_id}`}
-                        className="font-medium text-maroon underline underline-offset-2"
+                        className="font-medium text-primary underline underline-offset-2"
                       >
                         {adminPersonLabel(flagger?.display_name, flag.flagger_id)}
                       </Link>{" "}
@@ -158,7 +158,7 @@ export default async function AdminFlagsPage() {
                     {flag.group_id && (
                       <Link
                         href={`/admin/groups/${flag.group_id}`}
-                        className="inline-block text-xs font-medium text-maroon underline underline-offset-2"
+                        className="inline-block text-xs font-medium text-primary underline underline-offset-2"
                       >
                         View in group →
                       </Link>
