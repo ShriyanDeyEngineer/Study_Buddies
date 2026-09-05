@@ -501,3 +501,15 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
       a `content_flags` row; a flag resolved over
       `retention_grace_days_moderation()` days ago is deleted by
       `purge_stale_rows()`, an open one is kept.
+
+## Forest & Clay palette — 2026-09-03
+
+- [ ] No maroon or gold anywhere: marketing pages, dashboard, group page,
+      admin, onboarding, auth screens. Hero and footer are forest green,
+      buttons and badges are clay.
+- [ ] **Contrast**: the hero's "It's FREE to use" highlight, the dark logo
+      lockup, and every footer link use accent-LIGHT on the dark green and
+      are comfortably readable. Plain accent (clay) must never appear as
+      text on green — it measures 2.78:1.
+- [ ] Focus rings still visible on both light and dark surfaces (tab
+      through the marketing header, then the footer links).
