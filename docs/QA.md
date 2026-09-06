@@ -508,9 +508,9 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
       admin, onboarding, auth screens. Hero and footer are forest green,
       buttons and badges are clay.
 - [ ] **Contrast**: the hero's "It's FREE to use" highlight, the dark logo
-      lockup, and every footer link use accent-LIGHT on the dark green and
-      are comfortably readable. Plain accent (clay) must never appear as
-      text on green — it measures 2.78:1.
+      lockup, and every footer link are golden apricot on the dark green
+      and clearly readable (5.14:1). Apricot must NEVER appear as text or
+      an icon on cream/white — it measures 1.82:1 there; use primary.
 - [ ] Focus rings still visible on both light and dark surfaces (tab
       through the marketing header, then the footer links).
 

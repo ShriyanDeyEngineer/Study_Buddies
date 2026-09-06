@@ -16,20 +16,20 @@
  * else.
  *
  * CONTRAST RULE (do not break this). Measured ratios, not guesses:
- *   - accent on cream        3.35:1  → fills and large text only, never body copy
- *   - accent on primary      2.78:1  → NEVER. Use accent-light instead.
- *   - accent-light on primary 5.56:1 → this is the on-dark accent colour
- *   - ink on accent           4.86:1 → correct for accent-filled buttons
+ *   - accent on primary       5.14:1  → fine as text on the dark green
+ *   - accent on primary-dark  7.30:1  → fine (the footer)
+ *   - accent-light on primary 7.03:1  → also fine, just paler
+ *   - ink on accent           8.96:1  → correct for accent-filled buttons
+ *   - accent on cream         1.82:1  → NEVER. Not text, not an icon.
  *   - white on primary        9.98:1
- * So: ACCENT IS A FILL, ACCENT-LIGHT IS THE INK ON DARK. Anything sitting
- * ON primary/primary-dark (the hero highlight, the footer links, the dark
- * logo lockup, focus rings over those areas) uses accent-light. The
- * default focus ring is primary, correct on the cream/white surfaces
- * nearly everything renders on.
+ * So: ACCENT IS THE ON-DARK COLOUR. It is legible on primary and
+ * primary-dark (hero highlight, footer links, the dark logo lockup, focus
+ * rings over those areas) and effectively invisible on cream/white/line —
+ * on light surfaces use primary for text and accent only as a FILL behind
+ * dark text.
  *
- * NOTE this inverted from the old maroon/gold palette, where gold on
- * maroon measured 7.57:1 and was safe as text. Clay on forest is not —
- * do not copy that old pattern back in.
+ * The default focus ring is primary, correct on the cream/white surfaces
+ * nearly everything renders on, with accent overriding it on dark areas.
  * All interactive elements must meet a 4.5:1 contrast ratio.
  *
  * Touch this file to: add a design token, adjust global element defaults,
@@ -42,9 +42,9 @@
   --color-primary: #1f4a3d; /* forest green: headers, primary buttons,  */
                             /* and the default focus ring (see below)   */
   --color-primary-dark: #143026; /* hover states, footer background          */
-  --color-accent: #d2694a; /* clay: accents, CTAs; focus rings ONLY    */
-                          /* where the background is primary           */
-  --color-accent-light: #edb59f; /* badges, subtle highlights                */
+  --color-accent: #ffa64d; /* golden apricot: accents, CTAs; and the   */
+                          /* focus ring on primary backgrounds         */
+  --color-accent-light: #ffd0a3; /* badges, subtle highlights                */
 
   /* ── Surfaces & text ──────────────────────────────────────────────── */
   --color-cream: #faf7f2; /* page background (warm sand)              */

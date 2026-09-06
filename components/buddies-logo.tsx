@@ -87,9 +87,14 @@ export function LogoLockup({
         className,
       )}
     >
-      <BuddiesLogo className={cn("h-[1.35em] w-[1.35em]", dark ? "text-accent-light" : "text-primary")} />
+      {/* Apricot on both surfaces, no badge. Apricot on cream measures
+          1.82:1, which the CONTRAST RULE in globals.css otherwise forbids —
+          a brand mark is the one documented exception (WCAG exempts
+          logotypes from contrast minimums). Do NOT copy this pattern to
+          icons or text, where the rule stands. */}
+      <BuddiesLogo className="h-[1.35em] w-[1.35em] text-accent" />
       <span>
-        <span className={dark ? "text-accent-light" : ""}>Study Buddies</span>
+        <span className={dark ? "text-accent" : ""}>Study Buddies</span>
       </span>
     </span>
   );

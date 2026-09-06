@@ -71,26 +71,26 @@ export default function HomePage() {
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section className="bg-primary text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-20 text-center sm:py-28">
-          <BuddiesLogo className="h-20 w-20 text-accent-light" />
+          <BuddiesLogo className="h-20 w-20 text-accent" />
           <h1 className="max-w-2xl font-display text-4xl leading-tight sm:text-5xl">
             Find Your Study Buddies
           </h1>
           <p className="mt-4 max-w-xl text-lg text-white/85">
             Find study partners and join or create study groups for your UMN courses.
-            <span className="font-bold text-accent-light"> It's FREE to use</span>, built by students, for students.
+            <span className="font-bold text-accent"> It's FREE to use</span>, built by students, for students.
           </p>
           {/* Both buttons sit directly on this section's primary
               background, so — unlike the rest of the app — they keep the
               accent focus ring instead of the site-wide primary default: a
               primary ring would vanish here. */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild variant="secondary" size="lg" className="focus-visible:outline-accent-light">
+            <Button asChild variant="secondary" size="lg" className="focus-visible:outline-accent">
               <Link href="/register">Get Started</Link>
             </Button>
             <Button
               asChild
               size="lg"
-              className="border border-white/40 bg-transparent text-white hover:bg-white/10 focus-visible:outline-accent-light"
+              className="border border-white/40 bg-transparent text-white hover:bg-white/10 focus-visible:outline-accent"
             >
               <Link href="#how-it-works">See How it Works</Link>
             </Button>
