@@ -87,9 +87,9 @@ export function LogoLockup({
         className,
       )}
     >
-      <BuddiesLogo className={cn("h-[1.35em] w-[1.35em]", dark ? "text-accent-light" : "text-primary")} />
+      <BuddiesLogo className={cn("h-[1.35em] w-[1.35em]", dark ? "text-accent" : "text-primary")} />
       <span>
-        <span className={dark ? "text-accent-light" : ""}>Study Buddies</span>
+        <span className={dark ? "text-accent" : ""}>Study Buddies</span>
       </span>
     </span>
   );
