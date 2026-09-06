@@ -513,3 +513,22 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
       text on green — it measures 2.78:1.
 - [ ] Focus rings still visible on both light and dark surfaces (tab
       through the marketing header, then the footer links).
+
+## Admin People, mute & pause — 2026-09-03
+
+- [ ] **People list**: /admin/people shows every account including paused,
+      suspended and deleted ones; search by name or email narrows it and
+      the ?q= is linkable. Names link to the profile; each group chip
+      links to that group's admin observation view.
+- [ ] **Mute**: after muting a test account, that account CAN still browse,
+      join a group, RSVP and vote in a poll — and CANNOT send a group
+      message or DM, or create a meetup, poll, group or resource. Each
+      refusal shows the friendly "an admin has muted your account" message,
+      not a raw error. Unmute restores everything.
+- [ ] **Pause**: a paused account is locked to the "Your account is paused"
+      screen naming studybuddiesmn@gmail.com, with a working sign-out.
+      Nothing is deleted — unpausing restores the account exactly, groups
+      and messages intact.
+- [ ] **Guards**: an admin cannot mute or pause themselves (the buttons are
+      absent); a non-admin calling set_user_muted / set_user_paused
+      directly gets NOT_ADMIN; a deleted account cannot be paused.

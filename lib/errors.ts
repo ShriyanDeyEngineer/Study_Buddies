@@ -91,6 +91,8 @@ export const FRIENDLY_MESSAGES: Record<string, string> = {
   COURSE_NAME_TOO_LONG: "Keep the course name under 200 characters.",
 
   // ── Admin / course requests ──────────────────────────────────────────
+  MUTED:
+    "An admin has muted your account, so you can't post or create things right now. Email studybuddiesmn@gmail.com if you think this is a mistake.",
   NOT_ADMIN: "Only admins can do that.",
   COURSE_EXISTS: "That course is already in the catalog — search for it instead.",
 
