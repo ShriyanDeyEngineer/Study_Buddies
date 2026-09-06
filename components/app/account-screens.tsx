@@ -40,6 +40,10 @@ const LOCKOUT_COPY = {
     title: "Your account is suspended",
     body: "Your account was suspended after a report was reviewed. If you believe this is a mistake, contact the team using the email address on our home page footer.",
   },
+  paused: {
+    title: "Your account is paused",
+    body: "An admin has paused this account, so it can't be used right now. Nothing has been deleted. Email studybuddiesmn@gmail.com and we'll help sort it out.",
+  },
   deleted: {
     title: "This account has been deleted",
     body: "This account was deleted and its profile removed. Old messages remain, shown as Deleted User. Sign out and sign in with Google again to start a brand-new account.",
@@ -49,7 +53,7 @@ const LOCKOUT_COPY = {
 export function SuspendedScreen({
   status,
 }: {
-  status: "suspended" | "banned" | "deleted";
+  status: "paused" | "suspended" | "banned" | "deleted";
 }) {
   return (
     <Shell>

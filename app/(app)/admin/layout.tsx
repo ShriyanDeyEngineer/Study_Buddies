@@ -15,6 +15,7 @@ const SECTIONS = [
   { href: "/admin/requests", label: "Course requests" },
   { href: "/admin/messages", label: "Flagged messages" },
   { href: "/admin/flags", label: "Flagged content" },
+  { href: "/admin/people", label: "People" },
   { href: "/admin/groups", label: "Groups" },
 ];
 

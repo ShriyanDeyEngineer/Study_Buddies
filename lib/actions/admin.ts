@@ -53,3 +53,43 @@ export async function setContentFlagStatusAction(
   revalidatePath("/admin");
   return {};
 }
+
+/**
+ * Mute / unmute. A muted account still works — the person can browse,
+ * join groups, RSVP and vote — they just can't create anything other
+ * students see. The database (0041) is the enforcement; this is the
+ * doorway.
+ */
+export async function setUserMutedAction(
+  userId: string,
+  muted: boolean,
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_user_muted", {
+    p_user: userId,
+    p_muted: muted,
+  });
+  if (error) return { error: friendlyError(error) };
+  revalidatePath("/admin/people");
+  return {};
+}
+
+/**
+ * Pause / unpause. Pausing locks the account out entirely without
+ * deleting anything, and unpausing puts it back exactly as it was.
+ * Deliberately cannot un-suspend or un-ban — those are separate
+ * decisions with their own copy.
+ */
+export async function setUserPausedAction(
+  userId: string,
+  paused: boolean,
+): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_user_paused", {
+    p_user: userId,
+    p_paused: paused,
+  });
+  if (error) return { error: friendlyError(error) };
+  revalidatePath("/admin/people");
+  return {};
+}
