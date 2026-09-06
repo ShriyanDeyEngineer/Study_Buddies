@@ -87,18 +87,12 @@ export function LogoLockup({
         className,
       )}
     >
-      {/* The mark is the SAME apricot-on-forest treatment everywhere. On a
-          dark surface the page already supplies the green, so the icon sits
-          bare; on light surfaces it carries its own small green badge —
-          which is also what keeps it legal, since apricot on cream is
-          1.82:1 and would be invisible (see globals.css). */}
-      {dark ? (
-        <BuddiesLogo className="h-[1.35em] w-[1.35em] text-accent" />
-      ) : (
-        <span className="inline-flex shrink-0 items-center justify-center rounded-[0.3em] bg-primary p-[0.22em]">
-          <BuddiesLogo className="h-[1.25em] w-[1.25em] text-accent" />
-        </span>
-      )}
+      {/* Apricot on both surfaces, no badge. Apricot on cream measures
+          1.82:1, which the CONTRAST RULE in globals.css otherwise forbids —
+          a brand mark is the one documented exception (WCAG exempts
+          logotypes from contrast minimums). Do NOT copy this pattern to
+          icons or text, where the rule stands. */}
+      <BuddiesLogo className="h-[1.35em] w-[1.35em] text-accent" />
       <span>
         <span className={dark ? "text-accent" : ""}>Study Buddies</span>
       </span>
