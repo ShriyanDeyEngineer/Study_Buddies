@@ -20,15 +20,15 @@ import { BuddiesLogo } from "@/components/buddies-logo";
 const STEPS = [
   {
     title: "Sign in with UMN Google",
-    body: "Sign in with your University of Minnesota Twin Cities Google account (@umn.edu). That's the only way in — there's no separate password.",
+    body: "Sign in with your University of Minnesota Twin Cities Google account (@umn.edu). That's the only way in — no separate password needed.",
   },
   {
     title: "Pick Your Courses",
-    body: "Tell us what you're taking — PHYS 1301W, MATH 1371, CSCI 1133, anything. We'll connect you with classmates.",
+    body: "Tell us what you're taking — PHYS 1301W, MATH 1371, CSCI 1133, or anything at all. We'll connect you with classmates.",
   },
   {
     title: "Join or Create a Group",
-    body: "Join an open group instantly, request a closed one, or start your own and invite classmates.",
+    body: "Join an open group instantly, request a closed one, or create your own whilst inviting fellow classmates.",
   },
 ];
 
@@ -36,27 +36,27 @@ const FEATURES = [
   {
     icon: Users,
     title: "Groups for Your Exact Course",
-    body: "Meet students taking the same courses as you.",
+    body: "Meet fellow students taking the same courses as you.",
   },
   {
     icon: MessageCircle,
     title: "Group Chats",
-    body: "Live chat for efficient planning and studying for each study group.",
+    body: "Live chat for real-time planning and studying for each individual study group.",
   },
   {
     icon: CalendarClock,
-    title: "Meetups that Fit Your Schedule",
-    body: "Schedule online or in-person study sessions through the availability poll feature or chat feature and then create a new meeting and directly add it to your Google Calendar with the click of a button.",
+    title: "Built-In Calendar Compatibility",
+    body: "Create meetings and directly add it to your Google Calendar with the click of a button — no back-and-forth.",
   },
   {
     icon: Vote,
-    title: "Find a Time that Works for Your Group",
-    body: "Availability polls show which slot works for the most people — no back-and-forth.",
+    title: "Meetups that Fit Your Schedule",
+    body: "Schedule virtual or in-person study sessions through the availability poll feature that show which slot works for the majority.",
   },
   {
     icon: Sparkles,
-    title: "Study Buddies, 1 on 1",
-    body: "Turn on the study buddy option to open yourself to pairing up with students sharing your courses.",
+    title: "1:1 Study Sessions",
+    body: "Turn on the study buddy option and individually pair up with students sharing your exact courses.",
   },
   {
     icon: ShieldCheck,
@@ -100,9 +100,9 @@ export default function HomePage() {
 
       {/* ── How it works ─────────────────────────────────────────────── */}
       <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-8 px-4 py-16 sm:py-20">
-        <h2 className="text-center font-display text-3xl text-ink">How it Works</h2>
+        <h2 className="text-center font-display text-3xl text-ink">How It Works</h2>
         <p className="mx-auto mt-2 max-w-md text-center text-ink-muted">
-          Only 3 Simple Steps Between You and Your Study Group.
+          Only 3 simple steps between you and your study group.
         </p>
         <ol className="mt-10 grid gap-6 sm:grid-cols-3">
           {STEPS.map((step, index) => (
@@ -149,10 +149,10 @@ export default function HomePage() {
       {/* ── Closing CTA ──────────────────────────────────────────────── */}
       <section className="mx-auto max-w-6xl px-4 py-16 text-center sm:py-20">
         <h2 className="font-display text-3xl text-ink">
-          Ready to Find Your Study Buddies and Academic Success?
+          Ready to Find Your Study Buddies?
         </h2>
         <p className="mx-auto mt-2 max-w-md text-ink-muted">
-          Then click the button below!
+          Click the button below and reach your academic potential!
         </p>
         <Button asChild size="lg" className="mt-8">
           <Link href="/register">Find My Study Buddies!</Link>
