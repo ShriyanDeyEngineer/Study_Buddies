@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 
 export const metadata: Metadata = {
-  title: "About us",
+  title: "About",
   description:
     "The student team behind Study Buddies and why we built it.",
 };
@@ -22,7 +22,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-14">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="font-display text-4xl text-ink">About us</h1>
+        <h1 className="font-display text-4xl text-ink">About The Team</h1>
         <p className="mt-4 text-ink-muted">
           We&rsquo;re a group of UMN students who saw and felt how hard it is to find 
           a group of peers from our classes to study with. Whether it be because we 

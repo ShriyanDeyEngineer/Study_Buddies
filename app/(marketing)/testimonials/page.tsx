@@ -30,7 +30,7 @@ export default function TestimonialsPage() {
     <div className="mx-auto max-w-6xl px-4 py-14">
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="font-display text-4xl text-ink">Testimonials</h1>
-        <p className="mt-4 text-ink-muted">What Students Say about Study Buddies</p>
+        <p className="mt-4 text-ink-muted">What students say about Study Buddies.</p>
       </div>
 
       <div className="mx-auto mt-10 max-w-2xl">
