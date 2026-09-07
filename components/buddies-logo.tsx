@@ -87,14 +87,16 @@ export function LogoLockup({
         className,
       )}
     >
-      {/* Apricot on both surfaces, no badge. Apricot on cream measures
-          1.82:1, which the CONTRAST RULE in globals.css otherwise forbids —
-          a brand mark is the one documented exception (WCAG exempts
-          logotypes from contrast minimums). Do NOT copy this pattern to
-          icons or text, where the rule stands. */}
-      <BuddiesLogo className="h-[1.35em] w-[1.35em] text-accent" />
+      {/* No badge. On a light header the mark is plain accent (clay on
+          cream is 3.35:1) — below the text minimum, but WCAG exempts
+          logotypes, and this is the one documented exception. On a dark
+          surface clay drops to 2.78:1, so there it uses accent-light.
+          Do NOT copy the exception to icons or text. */}
+      <BuddiesLogo
+        className={cn("h-[1.35em] w-[1.35em]", dark ? "text-accent-light" : "text-accent")}
+      />
       <span>
-        <span className={dark ? "text-accent" : ""}>Study Buddies</span>
+        <span className={dark ? "text-accent-light" : ""}>Study Buddies</span>
       </span>
     </span>
   );
