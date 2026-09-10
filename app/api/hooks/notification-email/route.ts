@@ -68,13 +68,38 @@ export async function POST(request: Request) {
   // nor the (removed) length check can leak the real secret's length.
   const expected = process.env.NOTIFICATION_WEBHOOK_SECRET;
   const provided = request.headers.get("x-webhook-secret");
-  if (!expected || !provided) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
+
+  // The 401 carries a REASON. All three failures used to look identical
+  // from the outside, which made a misconfigured webhook impossible to
+  // debug: pg_net just logs {"error":"unauthorized"} and you cannot tell
+  // a missing env var from a missing header from a wrong value. None of
+  // these reasons leak the secret or help an attacker — every path still
+  // refuses the request.
+  const deny = (reason: string) => {
+    console.error(
+      `[notification-email] 401 ${reason} — headers seen: ` +
+        [...request.headers.keys()].join(", "),
+    );
+    return NextResponse.json({ error: "unauthorized", reason }, { status: 401 });
+  };
+
+  // No env var on the running deployment. Vercel only applies environment
+  // variables to deployments created AFTER they are added — if this fires
+  // while the variable is visibly set in the dashboard, the fix is a
+  // redeploy, not a value change.
+  if (!expected) return deny("server-missing-NOTIFICATION_WEBHOOK_SECRET");
+  // Header absent entirely — usually the name is misspelled in the
+  // Supabase webhook (it must be exactly `x-webhook-secret`).
+  if (!provided) return deny("request-missing-x-webhook-secret-header");
+
   const expectedHash = createHash("sha256").update(expected).digest();
   const providedHash = createHash("sha256").update(provided).digest();
   if (!timingSafeEqual(expectedHash, providedHash)) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    // Values differ. Most often invisible whitespace — a trailing newline
+    // or space copied along with the value on one side or the other.
+    return deny(
+      `secret-mismatch (server len ${expected.length}, request len ${provided.length})`,
+    );
   }
 
   let payload: WebhookPayload;
