@@ -17,6 +17,7 @@ import { acceptCurrentTermsAction, signOutAction } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LogoLockup } from "@/components/buddies-logo";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
@@ -42,7 +43,9 @@ const LOCKOUT_COPY = {
   },
   paused: {
     title: "Your account is paused",
-    body: "An admin has paused this account, so it can't be used right now. Nothing has been deleted. Email studybuddiesmn@gmail.com and we'll help sort it out.",
+    body:
+      "An admin has paused this account, so it can't be used right now. Nothing " +
+      `has been deleted. Email ${CONTACT_EMAIL} and we'll help sort it out.`,
   },
   deleted: {
     title: "This account has been deleted",

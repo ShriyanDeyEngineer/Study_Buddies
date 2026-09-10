@@ -10,6 +10,8 @@
  * To add a new database error: raise 'YOUR_CODE' in SQL, add one line to
  * FRIENDLY_MESSAGES here. That's the whole workflow.
  */
+import { CONTACT_EMAIL } from "@/lib/site";
+
 
 export const FRIENDLY_MESSAGES: Record<string, string> = {
   // ── Auth / accounts ──────────────────────────────────────────────────
@@ -92,7 +94,7 @@ export const FRIENDLY_MESSAGES: Record<string, string> = {
 
   // ── Admin / course requests ──────────────────────────────────────────
   MUTED:
-    "An admin has muted your account, so you can't post or create things right now. Email studybuddiesmn@gmail.com if you think this is a mistake.",
+    `An admin has muted your account, so you can't post or create things right now. Email ${CONTACT_EMAIL} if you think this is a mistake.`,
   NOT_ADMIN: "Only admins can do that.",
   COURSE_EXISTS: "That course is already in the catalog — search for it instead.",
 

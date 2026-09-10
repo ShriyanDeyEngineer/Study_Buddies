@@ -5,7 +5,7 @@
  * Terms promise responses to data-rights requests, COPPA deletion
  * requests, and abuse reports through it.
  */
-export const CONTACT_EMAIL = "studybuddiesminnesota@gmail.com";
+export const CONTACT_EMAIL = "studybuddiesmn@gmail.com";
 
 /**
  * Version identifier for the current set of legal documents (Terms of
