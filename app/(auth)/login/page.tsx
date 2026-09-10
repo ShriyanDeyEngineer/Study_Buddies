@@ -37,7 +37,7 @@ export default async function LoginPage({
         <GoogleButton next={params.next} />
 
         <p className="mt-6 text-center text-sm text-ink-muted font-['Times_New_Roman']">
-          First time here? Your account is created the first time you sign in.
+          First time here? Your account gets created the first time you sign in.
         </p>
       </CardContent>
     </Card>
