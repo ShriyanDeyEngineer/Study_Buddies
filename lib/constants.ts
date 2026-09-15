@@ -73,7 +73,9 @@ export const GROUP_RESOURCES_LIMIT = 200;
 
 /** Profiles (spec §5.11). */
 export const BIO_MAX_LENGTH = 500;
-export const DISPLAY_NAME_MAX = 50;
+/** Per part — first_name and last_name each. The database joins them into
+ *  display_name (migration 0042). */
+export const NAME_PART_MAX = 50;
 export const SOCIAL_LINKS_MAX = 5;
 
 /** People search box (spec §5.4). */

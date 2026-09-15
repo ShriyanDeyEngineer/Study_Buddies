@@ -36,7 +36,7 @@ distinct test accounts (use `yourname+1@umn.edu` style aliases).
 
 ## Onboarding
 
-- [ ] Exactly 3 steps; only display name is required; optional fields
+- [ ] Exactly 3 steps; only first and last name are required; optional fields
       are labeled optional and never block Next.
 - [ ] Pressing Enter in a text field advances the step — it must NOT
       submit the wizard.
@@ -284,11 +284,12 @@ distinct test accounts (use `yourname+1@umn.edu` style aliases).
       database row stores the masked text; the ORIGINAL text of any
       masked message lands in message_originals (dashboard-only — not
       readable through the API by any account).
-- [ ] **Names reject swears**: a display name, group name, course name,
-      meetup title, or poll title containing a swear (spaced tricks
-      included) shows "That name contains language that isn't allowed —
-      please choose another." inline, and nothing is saved. "Dickson"
-      as a display name is accepted.
+- [ ] **Names reject swears**: a group name, course name, meetup title,
+      or poll title containing a swear (spaced tricks included) shows
+      "That name contains language that isn't allowed — please choose
+      another." inline, and nothing is saved. First and last names are
+      NOT filtered (0042): "Dick" and "Shitole" are accepted; admins
+      handle inappropriate names.
 - [ ] **Delete account**: Edit profile → Delete account requires typing
       DELETE. After confirming: signed out, landed on the home page.
 - [ ] **After deletion (check from U2)**: U1 gone from U2's friends and
@@ -532,3 +533,23 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
 - [ ] **Guards**: an admin cannot mute or pause themselves (the buttons are
       absent); a non-admin calling set_user_muted / set_user_paused
       directly gets NOT_ADMIN; a deleted account cannot be paused.
+
+## First and last name — migration 0042
+
+- [ ] **Onboarding**: step 1 shows First name and Last name, both
+      prefilled from the Google account. Clearing either and pressing
+      Finish jumps back to step 1 with "Enter your first/last name." and
+      nothing is saved.
+- [ ] **Public name**: after onboarding, the header, profile page, people
+      search, group roster and chat all show "First Last". The dashboard
+      greets you by first name only.
+- [ ] **Settings**: Edit profile shows the two name fields; changing the
+      last name updates the name on your public profile.
+- [ ] **Existing accounts**: an account onboarded before 0042 (names
+      empty) lands on "Confirm your name" on every app page, prefilled
+      from Google, with a working sign-out. Saving lands on /dashboard
+      and the screen never returns.
+- [ ] **No freehand name**: a direct API update of display_name as a
+      signed-in student is refused (permission denied).
+- [ ] **Deletion**: after deleting an account, its profile row has
+      first_name and last_name NULL and shows as Deleted User.

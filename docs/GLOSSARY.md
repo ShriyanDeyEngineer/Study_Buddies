@@ -11,9 +11,10 @@ these words are the contract.
 - **Profile** — a user's public page: name, picture, college, major, class
   standing, bio, classes, graduation date, friend count, social links.
   Almost every field can be individually hidden (see *privacy flags*).
-- **Display name** — the name others see. Choosing one is the only REQUIRED
-  step of onboarding; until it exists, the app keeps redirecting to the
-  onboarding wizard.
+- **Display name** — the name others see: the student's first and last name,
+  joined by the database (migration 0042). Entering both is the only
+  REQUIRED step of onboarding; until a display name exists, the app keeps
+  redirecting to the onboarding wizard.
 - **Onboarding** — the three-step wizard after first sign-in (identity →
   courses → bio/picture). Finishing it (display name saved) unlocks the app.
 - **Friend** — a mutual connection created when one student's friend request

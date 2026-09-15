@@ -15,7 +15,12 @@ export interface ProfileRow {
   id: string;
   university_id: string;
   email: string;
+  /** The name classmates see. Built by the database as "First Last"
+   *  (migration 0042); accounts from before that keep their freehand one
+   *  until they confirm their names. NULL = onboarding not finished. */
   display_name: string | null;
+  first_name: string | null;
+  last_name: string | null;
   avatar_url: string | null;
   bio: string | null;
   college: string | null;

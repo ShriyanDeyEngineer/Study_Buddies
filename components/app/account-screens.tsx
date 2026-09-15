@@ -10,10 +10,14 @@
  *                            (middleware sends signed-in users right
  *                            back) — spec pitfall #4 — so we break the
  *                            loop with a sign-out screen instead.
+ *   <NameRequiredScreen>   — account predates required first + last
+ *                            names (migration 0042); confirm them once.
  */
-import { Ban, ScrollText, TriangleAlert } from "lucide-react";
+import { Ban, ScrollText, TriangleAlert, UserRound } from "lucide-react";
 import Link from "next/link";
 import { acceptCurrentTermsAction, signOutAction } from "@/lib/actions/auth";
+import type { NameParts } from "@/lib/names";
+import { NameRequiredForm } from "@/components/app/name-required-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LogoLockup } from "@/components/buddies-logo";
@@ -106,6 +110,27 @@ export function TermsUpdatedScreen() {
           </Button>
         </form>
       </div>
+    </Shell>
+  );
+}
+
+export function NameRequiredScreen({ defaults }: { defaults: NameParts }) {
+  return (
+    <Shell>
+      <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+        <UserRound aria-hidden className="h-7 w-7 text-primary" />
+      </span>
+      <h1 className="font-display text-2xl text-ink">Confirm your name</h1>
+      <p className="mt-2 text-sm text-ink-muted">
+        Study Buddies now shows everyone&rsquo;s first and last name, so classmates
+        know who they&rsquo;re studying with. Check yours below to keep going.
+      </p>
+      <NameRequiredForm defaults={defaults} />
+      <form action={signOutAction} className="mt-2">
+        <Button type="submit" variant="ghost" className="w-full">
+          Sign out
+        </Button>
+      </form>
     </Shell>
   );
 }

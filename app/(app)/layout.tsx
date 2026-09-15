@@ -18,9 +18,11 @@
 import { redirect } from "next/navigation";
 import { getSessionProfile } from "@/lib/supabase/server";
 import { TERMS_VERSION } from "@/lib/site";
+import { suggestNameParts } from "@/lib/names";
 import { AppHeader } from "@/components/app/app-header";
 import { MobileNav } from "@/components/app/app-nav";
 import {
+  NameRequiredScreen,
   ProfileMissingScreen,
   SuspendedScreen,
   TermsUpdatedScreen,
@@ -44,6 +46,21 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   // stamps the current version, so a fresh account never sees this.
   if (typedProfile.terms_version !== TERMS_VERSION) {
     return <TermsUpdatedScreen />;
+  }
+
+  // Accounts from before first + last names were required (migration
+  // 0042) confirm theirs once, prefilled from Google. New accounts give
+  // both during onboarding, so they never see this.
+  if (!typedProfile.first_name || !typedProfile.last_name) {
+    const suggested = suggestNameParts(user.user_metadata);
+    return (
+      <NameRequiredScreen
+        defaults={{
+          first_name: typedProfile.first_name ?? suggested.first_name,
+          last_name: typedProfile.last_name ?? suggested.last_name,
+        }}
+      />
+    );
   }
 
   // Initial unread counts for the bell and the Messages badge. One RPC

@@ -1,9 +1,9 @@
 /**
  * The three-step onboarding wizard (spec §5.3).
  *
- *   Step 1 — who you are: display name (the ONLY required field),
- *            college, major, standing, graduation. Optional fields are
- *            labeled optional and never gate progress.
+ *   Step 1 — who you are: first and last name (the ONLY required
+ *            fields), college, major, standing, graduation. Optional
+ *            fields are labeled optional and never gate progress.
  *   Step 2 — current courses (searchable multi-select, skippable).
  *   Step 3 — bio (optional) → Finish.
  *
@@ -24,8 +24,11 @@ import * as React from "react";
 import { useActionState } from "react";
 import { ArrowLeft, ArrowRight, Search } from "lucide-react";
 import { saveOnboardingAction } from "@/lib/actions/profile";
+import { nameSchema } from "@/lib/validation/profile";
 import { COLLEGES, CLASS_STANDINGS, GRAD_YEAR_MAX, GRAD_YEAR_MIN } from "@/lib/constants";
 import { courseCode, type CourseRow } from "@/lib/types";
+import type { NameParts } from "@/lib/names";
+import { NameFields } from "@/components/app/name-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -43,14 +46,19 @@ export function OnboardingWizard({
   suggestedName,
 }: {
   courses: CourseRow[];
-  suggestedName: string;
+  suggestedName: NameParts;
 }) {
   const [state, formAction, pending] = useActionState(saveOnboardingAction, {});
-  // Everyone starts on step 1. A name from the Google account is prefilled
-  // there (see the display_name field below), but we still want the
-  // student to see and confirm it — the label nudges them to shorten it to
-  // a first name, and skipping the step meant most never got that far.
+  // Everyone starts on step 1. The name from the Google account is
+  // prefilled there, but the student should still see and confirm it —
+  // Google's split into first and last is only a guess.
   const [step, setStep] = React.useState(0);
+  const hasGoogleName = Boolean(suggestedName.first_name || suggestedName.last_name);
+  // Names are checked when leaving step 1, not only on Finish: a Finish the
+  // server rejects makes React reset the whole form, which would throw away
+  // the courses and bio picked since. Same schema the server action uses.
+  const formRef = React.useRef<HTMLFormElement>(null);
+  const [nameErrors, setNameErrors] = React.useState<Record<string, string[]>>();
   const [courseQuery, setCourseQuery] = React.useState("");
 
   // Moving between steps swaps a whole fieldset in place with no
@@ -72,7 +80,8 @@ export function OnboardingWizard({
   React.useEffect(() => {
     if (!state.fieldErrors) return;
     if (
-      state.fieldErrors.display_name ||
+      state.fieldErrors.first_name ||
+      state.fieldErrors.last_name ||
       state.fieldErrors.graduation_year
     ) setStep(0);
     else if (state.fieldErrors.bio) setStep(2);
@@ -88,6 +97,22 @@ export function OnboardingWizard({
   });
 
   function next() {
+    if (step === 0 && formRef.current) {
+      const data = new FormData(formRef.current);
+      const parsed = nameSchema.safeParse({
+        first_name: data.get("first_name"),
+        last_name: data.get("last_name"),
+      });
+      if (!parsed.success) {
+        const errors = parsed.error.flatten().fieldErrors;
+        setNameErrors(errors);
+        formRef.current
+          .querySelector<HTMLInputElement>(errors.first_name ? "#first_name" : "#last_name")
+          ?.focus();
+        return;
+      }
+      setNameErrors(undefined);
+    }
     setStep((s) => Math.min(s + 1, 2));
   }
   function back() {
@@ -96,6 +121,7 @@ export function OnboardingWizard({
 
   return (
     <form
+      ref={formRef}
       action={formAction}
       noValidate
       onKeyDown={(event) => {
@@ -145,23 +171,11 @@ export function OnboardingWizard({
           <fieldset hidden={step !== 0} className="space-y-4">
             <legend className="sr-only">About you</legend>
             <div>
-              <Label htmlFor="display_name">
-                Display name (required, recommended to set it to just your first name)
-                {suggestedName.trim() && (
-                  <span className="ml-1.5 font-normal text-ink-muted">— from your Google account, change it if you like</span>
-                )}
-              </Label>
-              <Input
-                id="display_name"
-                name="display_name"
-                defaultValue={suggestedName}
-                maxLength={50}
-                placeholder="Alex R."
-                required
-                aria-invalid={!!state.fieldErrors?.display_name}
-                aria-describedby="display_name-error"
-              />
-              <FieldError id="display_name-error" error={state.fieldErrors?.display_name} />
+              <NameFields defaults={suggestedName} fieldErrors={nameErrors ?? state.fieldErrors} />
+              <p className="mt-1.5 text-sm text-ink-muted">
+                Classmates see your full name.
+                {hasGoogleName && " We filled it in from your Google account, so fix anything it got wrong."}
+              </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
