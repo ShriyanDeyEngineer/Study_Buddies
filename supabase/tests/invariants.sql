@@ -226,7 +226,7 @@ begin
     if sqlerrm not like '%NOT_MANAGER%' then raise; end if;
   end;
   begin
-    perform public.update_group_settings(v_group, 'Hijacked', 'open');
+    perform public.update_group_settings(v_group, 'Hijacked', v_before.description, v_before.capacity, 'open');
     raise exception 'FAIL: non-manager changed settings';
   exception when others then
     if sqlerrm not like '%NOT_MANAGER%' then raise; end if;
@@ -425,7 +425,7 @@ begin
   -- Capacity 3, 1 member, 3 pending → exactly 2 approvals (u2, u3);
   -- u4 is cancelled-with-notification, never over capacity.
   perform pg_temp.impersonate(u1);
-  perform public.update_group_settings(v_group, 'Mode Switch Test', 'open');
+  perform public.update_group_settings(v_group, 'Mode Switch Test', null, 3, 'open');
 
   if (select member_count from public.study_groups where id = v_group) <> 3 then
     raise exception 'FAIL: closed->open ended at %/3 members',
@@ -866,7 +866,13 @@ begin
     raise exception 'FAIL: purge removed a deleted account''s data inside the grace period';
   end if;
 
+  -- Age the deletion past the grace period. The retained email ages off
+  -- its own deleted_at (RETENTION.md), so backdate both; a real deletion
+  -- stamps the two in the same transaction.
   update public.profiles
+    set deleted_at = now() - make_interval(days => public.retention_grace_days() + 1)
+    where id = u8;
+  update public.deleted_account_emails
     set deleted_at = now() - make_interval(days => public.retention_grace_days() + 1)
     where id = u8;
   perform public.purge_stale_rows();
