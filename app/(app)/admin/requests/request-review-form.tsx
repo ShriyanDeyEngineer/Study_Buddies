@@ -10,6 +10,7 @@ import {
   approveCourseRequestAction,
   declineCourseRequestAction,
 } from "@/lib/actions/course-requests";
+import { submitWithoutReset } from "@/lib/forms";
 import type { CourseRequestRow } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field-error";
@@ -48,7 +49,7 @@ export function RequestReviewForm({
 
   return (
     <form
-      action={formAction}
+      onSubmit={submitWithoutReset(formAction)}
       noValidate
       className="rounded-xl border border-line bg-surface p-4 shadow-sm"
     >

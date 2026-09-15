@@ -32,6 +32,7 @@ import {
   sendFriendRequestAction,
   unblockUserAction,
 } from "@/lib/actions/people";
+import { submitWithoutReset } from "@/lib/forms";
 import { REPORT_CATEGORIES, REPORT_DESCRIPTION_MAX } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
@@ -277,7 +278,7 @@ function ReportDialog({ userId, displayName }: { userId: string; displayName: st
             {state.success}
           </p>
         ) : (
-          <form action={formAction} noValidate className="mt-4 space-y-4 font-['Times_New_Roman']">
+          <form onSubmit={submitWithoutReset(formAction)} noValidate className="mt-4 space-y-4 font-['Times_New_Roman']">
             <input type="hidden" name="reported_user_id" value={userId} />
             <div>
               <Label htmlFor="report-category">What&rsquo;s going on?</Label>

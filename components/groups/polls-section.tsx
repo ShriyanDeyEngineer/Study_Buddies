@@ -28,6 +28,7 @@ import {
   createAvailabilityPollAction,
 } from "@/lib/actions/meetups";
 import { generateGridSlots } from "@/lib/availability-grid";
+import { submitWithoutReset } from "@/lib/forms";
 import { POLL_SLOTS_MAX } from "@/lib/constants";
 import type { AvailabilityPollRow, AvailabilitySlotRow } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -270,7 +271,7 @@ function NewPollDialog({ groupId }: { groupId: string }) {
         </DialogDescription>
 
         <form
-          action={(formData) => {
+          onSubmit={submitWithoutReset((formData) => {
             if (hoursInverted) {
               setClientError("The end hour has to be after the start hour.");
               return;
@@ -288,7 +289,7 @@ function NewPollDialog({ groupId }: { groupId: string }) {
             setClientError(null);
             formData.set("slots", JSON.stringify(previewSlots));
             formAction(formData);
-          }}
+          })}
           noValidate
           className="mt-4 space-y-4"
         >

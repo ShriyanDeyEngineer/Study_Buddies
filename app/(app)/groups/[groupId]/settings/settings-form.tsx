@@ -12,6 +12,7 @@ import * as React from "react";
 import { useActionState } from "react";
 import { toast } from "sonner";
 import { disbandGroupAction, updateGroupSettingsAction } from "@/lib/actions/groups";
+import { submitWithoutReset } from "@/lib/forms";
 import {
   GROUP_CAPACITY_MAX,
   GROUP_CAPACITY_MIN,
@@ -55,7 +56,7 @@ export function SettingsForm({
     <div className="space-y-6">
       <Card>
         <CardContent>
-          <form action={formAction} noValidate className="space-y-5">
+          <form onSubmit={submitWithoutReset(formAction)} noValidate className="space-y-5">
             <input type="hidden" name="group_id" value={groupId} />
 
             <div>
