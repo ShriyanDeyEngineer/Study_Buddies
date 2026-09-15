@@ -14,6 +14,7 @@ import { useActionState } from "react";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { createCourseRequestAction } from "@/lib/actions/course-requests";
+import { submitWithoutReset } from "@/lib/forms";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -54,7 +55,7 @@ export function AddCourseDialog({ triggerLabel = "Add a Course" }: { triggerLabe
           when it&rsquo;s approved or declined — usually within a few days.
         </DialogDescription>
 
-        <form action={formAction} noValidate className="mt-4 space-y-4">
+        <form onSubmit={submitWithoutReset(formAction)} noValidate className="mt-4 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label htmlFor="request-dept">Department (required)</Label>

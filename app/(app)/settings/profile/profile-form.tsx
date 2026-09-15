@@ -1,8 +1,9 @@
 /**
  * The profile edit form. One deliberate behavior (spec §5.11): if a save
  * fails, everything you typed is STILL IN THE FORM — inputs are
- * uncontrolled with defaultValues and the page doesn't reload on error,
- * so nothing is lost and you can fix + retry without retyping.
+ * uncontrolled with defaultValues, and the form submits through
+ * submitWithoutReset (lib/forms.ts) so React doesn't reset them when the
+ * server sends errors back. Fix + retry without retyping.
  */
 "use client";
 
@@ -10,6 +11,7 @@ import * as React from "react";
 import { useActionState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { updateProfileAction } from "@/lib/actions/profile";
+import { submitWithoutReset } from "@/lib/forms";
 import {
   BIO_MAX_LENGTH,
   CLASS_STANDINGS,
@@ -19,6 +21,7 @@ import {
   SOCIAL_LINKS_MAX,
 } from "@/lib/constants";
 import type { ProfileRow } from "@/lib/types";
+import { MajorField } from "@/components/app/major-field";
 import { NameFields } from "@/components/app/name-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -44,7 +47,7 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
     <Card>
       <CardContent>
         <h2 className="mb-4 font-display text-xl text-ink">The basics</h2>
-        <form action={formAction} noValidate className="space-y-4">
+        <form onSubmit={submitWithoutReset(formAction)} noValidate className="space-y-4">
           <div>
             <NameFields
               defaults={{
@@ -68,18 +71,7 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
                 ))}
               </Select>
             </div>
-            <div>
-              <Label htmlFor="major">Major</Label>
-              <Input
-                id="major"
-                name="major"
-                defaultValue={profile.major ?? ""}
-                maxLength={100}
-                aria-invalid={!!state.fieldErrors?.major}
-                aria-describedby="major-error"
-              />
-              <FieldError id="major-error" error={state.fieldErrors?.major} />
-            </div>
+            <MajorField saved={profile.major} error={state.fieldErrors?.major} />
             <div>
               <Label htmlFor="class_standing">Class standing</Label>
               <Select

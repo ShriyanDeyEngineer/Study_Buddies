@@ -24,10 +24,12 @@ import * as React from "react";
 import { useActionState } from "react";
 import { ArrowLeft, ArrowRight, Search } from "lucide-react";
 import { saveOnboardingAction } from "@/lib/actions/profile";
+import { submitWithoutReset } from "@/lib/forms";
 import { nameSchema } from "@/lib/validation/profile";
 import { COLLEGES, CLASS_STANDINGS, GRAD_YEAR_MAX, GRAD_YEAR_MIN } from "@/lib/constants";
 import { courseCode, type CourseRow } from "@/lib/types";
 import type { NameParts } from "@/lib/names";
+import { MajorField } from "@/components/app/major-field";
 import { NameFields } from "@/components/app/name-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -54,9 +56,9 @@ export function OnboardingWizard({
   // Google's split into first and last is only a guess.
   const [step, setStep] = React.useState(0);
   const hasGoogleName = Boolean(suggestedName.first_name || suggestedName.last_name);
-  // Names are checked when leaving step 1, not only on Finish: a Finish the
-  // server rejects makes React reset the whole form, which would throw away
-  // the courses and bio picked since. Same schema the server action uses.
+  // Names are checked when leaving step 1, not only on Finish, so the error
+  // shows up next to the field before the student moves on to courses and
+  // bio. Same schema the server action uses.
   const formRef = React.useRef<HTMLFormElement>(null);
   const [nameErrors, setNameErrors] = React.useState<Record<string, string[]>>();
   const [courseQuery, setCourseQuery] = React.useState("");
@@ -82,6 +84,7 @@ export function OnboardingWizard({
     if (
       state.fieldErrors.first_name ||
       state.fieldErrors.last_name ||
+      state.fieldErrors.major ||
       state.fieldErrors.graduation_year
     ) setStep(0);
     else if (state.fieldErrors.bio) setStep(2);
@@ -122,7 +125,7 @@ export function OnboardingWizard({
   return (
     <form
       ref={formRef}
-      action={formAction}
+      onSubmit={submitWithoutReset(formAction)}
       noValidate
       onKeyDown={(event) => {
         // The Enter-key guard described in the header comment. Textareas
@@ -189,10 +192,7 @@ export function OnboardingWizard({
                   ))}
                 </Select>
               </div>
-              <div>
-                <Label htmlFor="major">Major (optional)</Label>
-                <Input id="major" name="major" maxLength={100} placeholder="Undecided is fine!" />
-              </div>
+              <MajorField label="Major (optional)" error={state.fieldErrors?.major} />
               <div>
                 <Label htmlFor="class_standing">Class standing (optional)</Label>
                 <Select id="class_standing" name="class_standing" defaultValue="">
