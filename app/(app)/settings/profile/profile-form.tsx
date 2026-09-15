@@ -1,8 +1,9 @@
 /**
  * The profile edit form. One deliberate behavior (spec §5.11): if a save
  * fails, everything you typed is STILL IN THE FORM — inputs are
- * uncontrolled with defaultValues and the page doesn't reload on error,
- * so nothing is lost and you can fix + retry without retyping.
+ * uncontrolled with defaultValues, and the form submits through
+ * submitWithoutReset (lib/forms.ts) so React doesn't reset them when the
+ * server sends errors back. Fix + retry without retyping.
  */
 "use client";
 
@@ -10,6 +11,7 @@ import * as React from "react";
 import { useActionState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { updateProfileAction } from "@/lib/actions/profile";
+import { submitWithoutReset } from "@/lib/forms";
 import {
   BIO_MAX_LENGTH,
   CLASS_STANDINGS,
@@ -44,7 +46,7 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
     <Card>
       <CardContent>
         <h2 className="mb-4 font-display text-xl text-ink">The basics</h2>
-        <form action={formAction} noValidate className="space-y-4">
+        <form onSubmit={submitWithoutReset(formAction)} noValidate className="space-y-4">
           <div>
             <NameFields
               defaults={{

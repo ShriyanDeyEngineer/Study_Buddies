@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { CalendarPlus } from "lucide-react";
 import { toast } from "sonner";
 import { createMeetupAction } from "@/lib/actions/meetups";
+import { submitWithoutReset } from "@/lib/forms";
 import {
   MEETUP_DURATION_DEFAULT,
   MEETUP_DURATION_MAX,
@@ -99,14 +100,14 @@ export function MeetupFormDialog({
         </DialogDescription>
 
         <form
-          action={(formData) => {
+          onSubmit={submitWithoutReset((formData) => {
             // Swap the local wall-clock value for its UTC instant before
             // the server ever sees it (see header comment).
             const local = String(formData.get("scheduled_at_local") ?? "");
             formData.set("scheduled_at", local ? localInputToUtcIso(local) : "");
             formData.delete("scheduled_at_local");
             formAction(formData);
-          }}
+          })}
           noValidate
           className="mt-4 space-y-4"
         >
