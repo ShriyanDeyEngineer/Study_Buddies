@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { ExternalLink, FilePlus2, Link2, StickyNote, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { addResourceAction, deleteResourceAction } from "@/lib/actions/resources";
+import { submitWithoutReset } from "@/lib/forms";
 import {
   RESOURCE_NOTE_MAX,
   RESOURCE_TITLE_MAX,
@@ -191,7 +192,7 @@ function AddResourceDialog({ groupId }: { groupId: string }) {
           Google Doc or Drive folder instead.
         </DialogDescription>
 
-        <form action={formAction} noValidate className="mt-4 space-y-4">
+        <form onSubmit={submitWithoutReset(formAction)} noValidate className="mt-4 space-y-4">
           <input type="hidden" name="group_id" value={groupId} />
           <input type="hidden" name="kind" value={kind} />
 

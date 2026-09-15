@@ -13,6 +13,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useActionState } from "react";
 import { createGroupAction, createGroupWithCourseAction } from "@/lib/actions/groups";
+import { submitWithoutReset } from "@/lib/forms";
 import {
   GROUP_CAPACITY_DEFAULT,
   GROUP_CAPACITY_MAX,
@@ -74,7 +75,7 @@ export function CreateGroupForm({
 
       <Card>
         <CardContent>
-          <form action={formAction} noValidate className="space-y-5">
+          <form onSubmit={submitWithoutReset(formAction)} noValidate className="space-y-5">
             {course ? (
               <input type="hidden" name="course_id" value={course.id} />
             ) : (
