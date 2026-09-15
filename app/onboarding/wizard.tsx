@@ -29,6 +29,7 @@ import { nameSchema } from "@/lib/validation/profile";
 import { COLLEGES, CLASS_STANDINGS, GRAD_YEAR_MAX, GRAD_YEAR_MIN } from "@/lib/constants";
 import { courseCode, type CourseRow } from "@/lib/types";
 import type { NameParts } from "@/lib/names";
+import { MajorField } from "@/components/app/major-field";
 import { NameFields } from "@/components/app/name-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -191,18 +192,7 @@ export function OnboardingWizard({
                   ))}
                 </Select>
               </div>
-              <div>
-                <Label htmlFor="major">Major (optional)</Label>
-                <Input
-                  id="major"
-                  name="major"
-                  maxLength={100}
-                  placeholder="Undecided is fine!"
-                  aria-invalid={!!state.fieldErrors?.major}
-                  aria-describedby="major-error"
-                />
-                <FieldError id="major-error" error={state.fieldErrors?.major} />
-              </div>
+              <MajorField label="Major (optional)" error={state.fieldErrors?.major} />
               <div>
                 <Label htmlFor="class_standing">Class standing (optional)</Label>
                 <Select id="class_standing" name="class_standing" defaultValue="">

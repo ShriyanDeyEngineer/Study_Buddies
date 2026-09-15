@@ -21,6 +21,7 @@ import {
   SOCIAL_LINKS_MAX,
 } from "@/lib/constants";
 import type { ProfileRow } from "@/lib/types";
+import { MajorField } from "@/components/app/major-field";
 import { NameFields } from "@/components/app/name-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -70,18 +71,7 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
                 ))}
               </Select>
             </div>
-            <div>
-              <Label htmlFor="major">Major</Label>
-              <Input
-                id="major"
-                name="major"
-                defaultValue={profile.major ?? ""}
-                maxLength={100}
-                aria-invalid={!!state.fieldErrors?.major}
-                aria-describedby="major-error"
-              />
-              <FieldError id="major-error" error={state.fieldErrors?.major} />
-            </div>
+            <MajorField saved={profile.major} error={state.fieldErrors?.major} />
             <div>
               <Label htmlFor="class_standing">Class standing</Label>
               <Select

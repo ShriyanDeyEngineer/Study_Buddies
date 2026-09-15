@@ -568,3 +568,18 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
 - [ ] **Dialogs** (add course, new meetup, new poll, add resource,
       report) and **Create group**: submit with a required field missing;
       everything else you typed is still there.
+
+## Major dropdown
+
+- [ ] **Onboarding and Edit profile**: Major is a dropdown of UMN majors,
+      starting with "Prefer not to say" and "Undecided" and ending with
+      "Other". A picked major shows on your profile exactly as listed.
+- [ ] **Other**: picking Other opens a text box with the cursor in it.
+      A typed major saves and shows on your profile; saving with the box
+      empty shows "Type your major, or pick one from the list."
+- [ ] **Older majors**: an account whose saved major isn't on the list
+      (e.g. "Pre-Med") opens Edit profile with Other selected and the text
+      filled in. A saved major that only differs in capitalization
+      ("computer science") opens with the list entry selected.
+- [ ] **Students filter**: the Major filter still lists the majors on
+      profiles, and picking one finds those students.

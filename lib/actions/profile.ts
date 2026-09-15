@@ -18,6 +18,7 @@ import {
   privacySchema,
   profileSchema,
 } from "@/lib/validation/profile";
+import { majorFromForm } from "@/lib/majors";
 import { friendlyError } from "@/lib/errors";
 import { TERMS_VERSION } from "@/lib/site";
 import type { ActionResult } from "@/lib/actions/types";
@@ -31,7 +32,7 @@ function profileFields(formData: FormData) {
     first_name: formData.get("first_name"),
     last_name: formData.get("last_name"),
     college: formData.get("college"),
-    major: formData.get("major"),
+    major: majorFromForm(formData.get("major"), formData.get("major_other")),
     class_standing: formData.get("class_standing"),
     graduation_month: formData.get("graduation_month"),
     graduation_year: formData.get("graduation_year"),

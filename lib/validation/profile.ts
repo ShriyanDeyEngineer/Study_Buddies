@@ -7,11 +7,7 @@
  * (the enforcement that counts).
  */
 import { z } from "zod";
-import {
-  containsProfanity,
-  PROFANITY_NAME_MESSAGE,
-  PROFANITY_TEXT_MESSAGE,
-} from "@/lib/profanity";
+import { containsProfanity, PROFANITY_TEXT_MESSAGE } from "@/lib/profanity";
 import {
   BIO_MAX_LENGTH,
   COLLEGE_VALUES,
@@ -58,13 +54,16 @@ export const profileSchema = z.object({
   college: emptyToNull(
     z.enum(COLLEGE_VALUES as [string, ...string[]]).nullable(),
   ),
+  // Picked from the dropdown, or typed after choosing Other. majorFromForm
+  // (lib/majors.ts) folds the two inputs into this one value and hands over
+  // undefined when Other was picked with nothing typed.
   major: emptyToNull(
     z
-      .string()
+      .string({ required_error: "Type your major, or pick one from the list." })
       .trim()
       .max(100, "Keep majors under 100 characters.")
       .nullable()
-      .refine((v) => v === null || !containsProfanity(v), PROFANITY_NAME_MESSAGE),
+      .refine((v) => v === null || !containsProfanity(v), PROFANITY_TEXT_MESSAGE),
   ),
   class_standing: emptyToNull(
     z.enum(STANDING_VALUES as [string, ...string[]]).nullable(),
