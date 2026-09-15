@@ -47,7 +47,9 @@ export function SiteFooter() {
               {CONTACT_EMAIL}
             </a>
           </p>
-          <p className="mt-3 text-white/80 font-['Times_New_Roman']">
+          {/* A div, not a p: a <ul> inside a <p> is invalid HTML, so the
+              browser closes the paragraph early and React's hydration fails. */}
+          <div className="mt-3 text-white/80 font-['Times_New_Roman']">
             <span className="font-bold">Socials: &#8200;</span>
             <ul>
               <li>
@@ -57,7 +59,7 @@ export function SiteFooter() {
                 </a>
               </li>
             </ul>
-          </p>
+          </div>
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-white/60 font-['Times_New_Roman']">
