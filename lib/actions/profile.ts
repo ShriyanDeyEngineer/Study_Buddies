@@ -12,7 +12,12 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { onboardingSchema, privacySchema, profileSchema } from "@/lib/validation/profile";
+import {
+  nameSchema,
+  onboardingSchema,
+  privacySchema,
+  profileSchema,
+} from "@/lib/validation/profile";
 import { friendlyError } from "@/lib/errors";
 import { TERMS_VERSION } from "@/lib/site";
 import type { ActionResult } from "@/lib/actions/types";
@@ -23,7 +28,8 @@ const UUID_RE =
 /** Shared FormData → object plumbing for the profile schemas. */
 function profileFields(formData: FormData) {
   return {
-    display_name: formData.get("display_name"),
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
     college: formData.get("college"),
     major: formData.get("major"),
     class_standing: formData.get("class_standing"),
@@ -91,6 +97,38 @@ export async function saveOnboardingAction(
       { ignoreDuplicates: true },
     );
   }
+
+  redirect("/dashboard");
+}
+
+/**
+ * "Confirm your name" — the screen the app layout shows accounts created
+ * before first + last names were required (migration 0042). Saving both
+ * rebuilds display_name in the database, which lets them back in.
+ */
+export async function saveNameAction(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const parsed = nameSchema.safeParse({
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
+  });
+  if (!parsed.success) {
+    return { fieldErrors: parsed.error.flatten().fieldErrors };
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update(parsed.data)
+    .eq("id", user.id);
+  if (error) return { error: friendlyError(error) };
 
   redirect("/dashboard");
 }

@@ -14,12 +14,12 @@ import {
   BIO_MAX_LENGTH,
   CLASS_STANDINGS,
   COLLEGES,
-  DISPLAY_NAME_MAX,
   GRAD_YEAR_MAX,
   GRAD_YEAR_MIN,
   SOCIAL_LINKS_MAX,
 } from "@/lib/constants";
 import type { ProfileRow } from "@/lib/types";
+import { NameFields } from "@/components/app/name-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FieldError } from "@/components/ui/field-error";
@@ -46,17 +46,14 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
         <h2 className="mb-4 font-display text-xl text-ink">The basics</h2>
         <form action={formAction} noValidate className="space-y-4">
           <div>
-            <Label htmlFor="display_name">Display name (required, recommended to just use your first name)</Label>
-            <Input
-              id="display_name"
-              name="display_name"
-              defaultValue={profile.display_name ?? ""}
-              maxLength={DISPLAY_NAME_MAX}
-              required
-              aria-invalid={!!state.fieldErrors?.display_name}
-              aria-describedby="display_name-error"
+            <NameFields
+              defaults={{
+                first_name: profile.first_name ?? "",
+                last_name: profile.last_name ?? "",
+              }}
+              fieldErrors={state.fieldErrors}
             />
-            <FieldError id="display_name-error" error={state.fieldErrors?.display_name} />
+            <p className="mt-1.5 text-sm text-ink-muted">Classmates see your full name.</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">

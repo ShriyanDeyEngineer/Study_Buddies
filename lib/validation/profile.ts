@@ -15,9 +15,9 @@ import {
 import {
   BIO_MAX_LENGTH,
   COLLEGE_VALUES,
-  DISPLAY_NAME_MAX,
   GRAD_YEAR_MAX,
   GRAD_YEAR_MIN,
+  NAME_PART_MAX,
   SOCIAL_LINKS_MAX,
   STANDING_VALUES,
 } from "@/lib/constants";
@@ -27,12 +27,20 @@ import {
 const emptyToNull = <T extends z.ZodTypeAny>(schema: T) =>
   z.preprocess((v) => (typeof v === "string" && v.trim() === "" ? null : v), schema);
 
-export const displayNameSchema = z
-  .string()
-  .trim()
-  .min(1, "Pick a display name — it's how classmates will find you.")
-  .max(DISPLAY_NAME_MAX, `Keep it under ${DISPLAY_NAME_MAX} characters.`)
-  .refine((v) => !containsProfanity(v), PROFANITY_NAME_MESSAGE);
+/** First or last name — both required. The database joins them into
+ *  display_name, the name classmates see (migration 0042).
+ *
+ *  No profanity check, on purpose: these are real names, and the filter
+ *  rejected real ones ("Dick", "Shitole") with no way past the required
+ *  field. Inappropriate names are handled by admins (pause/ban). */
+const namePartSchema = (which: "first" | "last") => {
+  const missing = `Enter your ${which} name.`;
+  return z
+    .string({ required_error: missing, invalid_type_error: missing })
+    .trim()
+    .min(1, missing)
+    .max(NAME_PART_MAX, `Keep it under ${NAME_PART_MAX} characters.`);
+};
 
 /** A single social link: must be a real http(s) URL (spec §5.11). The
  *  protocol check stops javascript: links from ever rendering as <a href>. */
@@ -45,7 +53,8 @@ export const socialLinkSchema = z
   });
 
 export const profileSchema = z.object({
-  display_name: displayNameSchema,
+  first_name: namePartSchema("first"),
+  last_name: namePartSchema("last"),
   college: emptyToNull(
     z.enum(COLLEGE_VALUES as [string, ...string[]]).nullable(),
   ),
@@ -87,12 +96,20 @@ export const profileSchema = z.object({
 
 /** Onboarding step 1 collects just the identity basics. */
 export const onboardingSchema = profileSchema.pick({
-  display_name: true,
+  first_name: true,
+  last_name: true,
   college: true,
   major: true,
   class_standing: true,
   graduation_month: true,
   graduation_year: true,
+});
+
+/** The layout's "confirm your name" screen, for accounts from before
+ *  first + last names were required. */
+export const nameSchema = profileSchema.pick({
+  first_name: true,
+  last_name: true,
 });
 
 /**

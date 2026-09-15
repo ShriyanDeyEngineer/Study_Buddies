@@ -109,7 +109,7 @@ export default async function DashboardPage() {
     <div className="space-y-10">
       <div>
         <h1 className="break-words font-display text-3xl text-ink">
-          Hello, {profile.display_name?.split(" ")[0]}
+          Hello, {profile.first_name}
         </h1>
         <p className="mt-1 text-ink-muted">Here&rsquo;s what&rsquo;s happening with your studies.</p>
       </div>

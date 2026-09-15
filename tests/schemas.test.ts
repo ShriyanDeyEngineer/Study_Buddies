@@ -135,7 +135,8 @@ describe("course request (student-filed — name is optional here)", () => {
 describe("profile", () => {
   function profile(overrides: Record<string, unknown> = {}) {
     return profileSchema.safeParse({
-      display_name: "RandName",
+      first_name: "Rand",
+      last_name: "Name",
       college: null,
       major: null,
       class_standing: null,
@@ -147,11 +148,18 @@ describe("profile", () => {
     });
   }
 
-  it("display name boundaries: 1 and 50 pass; empty and 51 fail", () => {
-    expect(profile({ display_name: "G" }).success).toBe(true);
-    expect(profile({ display_name: "x".repeat(50) }).success).toBe(true);
-    expect(profile({ display_name: "  " }).success).toBe(false);
-    expect(profile({ display_name: "x".repeat(51) }).success).toBe(false);
+  it("first and last name: 1 and 50 pass; missing, blank and 51 fail", () => {
+    for (const field of ["first_name", "last_name"]) {
+      expect(profile({ [field]: "G" }).success).toBe(true);
+      expect(profile({ [field]: "x".repeat(50) }).success).toBe(true);
+      expect(profile({ [field]: null }).success).toBe(false);
+      expect(profile({ [field]: "  " }).success).toBe(false);
+      expect(profile({ [field]: "x".repeat(51) }).success).toBe(false);
+    }
+  });
+
+  it("real names that trip the profanity filter are accepted", () => {
+    expect(profile({ first_name: "Dick", last_name: "Shitole" }).success).toBe(true);
   });
 
   it("bio boundaries: 500 passes, 501 fails", () => {

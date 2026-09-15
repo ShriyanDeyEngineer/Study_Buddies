@@ -109,6 +109,11 @@ the spec explicitly rules out); see git history if you're curious.
   email/password entirely, which removed the password policy UI, email
   verification, and reset flows. The database domain trigger — the real
   @umn.edu boundary — is unchanged and now guards the one remaining door.
+- **First and last name are required** (2026-09-14). Onboarding asks for
+  both, prefilled from the Google account; the database joins them into
+  `display_name`, the name classmates see, which can no longer be set
+  freehand. Accounts from before this confirm their name once on a gate
+  screen. (`0042_first_last_name.sql`)
 
 ## Judgment calls (where the spec left room)
 

@@ -6,6 +6,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getSessionProfile } from "@/lib/supabase/server";
+import { suggestNameParts } from "@/lib/names";
 import { ProfileMissingScreen } from "@/components/app/account-screens";
 import type { CourseRow, ProfileRow } from "@/lib/types";
 import { OnboardingWizard } from "./wizard";
@@ -33,8 +34,7 @@ export default async function OnboardingPage() {
 
   // Google accounts arrive with a name we can politely prefill (still
   // editable — it's a suggestion, not a decision).
-  const suggestedName =
-    (user.user_metadata?.full_name as string | undefined)?.slice(0, 50) ?? "";
+  const suggestedName = suggestNameParts(user.user_metadata);
 
   return (
     <OnboardingWizard

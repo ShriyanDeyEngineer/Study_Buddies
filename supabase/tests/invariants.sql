@@ -896,6 +896,48 @@ begin
   raise notice 'PASS: bucket 3 defers a deleted account''s data, then sweeps the tombstone';
 end $$;
 
+-- ── INVARIANT: display_name is derived from first + last name (0042) ────────
+do $$
+declare
+  u10 uuid := '00000000-0000-4000-a000-000000000010';
+begin
+  insert into auth.users (id, email) values (u10, 'invariant-names@umn.edu');
+
+  -- A freehand display_name in the same write loses to the names.
+  update public.profiles
+    set first_name = '  Alex ', last_name = 'Rivera', display_name = 'Someone Else'
+    where id = u10;
+  if (select display_name from public.profiles where id = u10) <> 'Alex Rivera' then
+    raise exception 'FAIL: display_name not derived from trimmed first + last name';
+  end if;
+
+  begin
+    update public.profiles set last_name = '   ' where id = u10;
+    raise exception 'FAIL: a whitespace-only last name was accepted';
+  exception when check_violation then
+    null;
+  end;
+
+  if has_column_privilege('authenticated', 'public.profiles', 'display_name', 'UPDATE') then
+    raise exception 'FAIL: students can still write display_name directly';
+  end if;
+  if not has_column_privilege('authenticated', 'public.profiles', 'first_name', 'UPDATE')
+     or not has_column_privilege('authenticated', 'public.profiles', 'last_name', 'UPDATE') then
+    raise exception 'FAIL: students cannot edit their own first/last name';
+  end if;
+
+  perform pg_temp.impersonate(u10);
+  perform public.delete_account();
+  if exists (select 1 from public.profiles
+             where id = u10
+               and (first_name is not null or last_name is not null
+                    or display_name <> 'Deleted User')) then
+    raise exception 'FAIL: account deletion left the real name behind';
+  end if;
+
+  raise notice 'PASS: display_name follows first + last name, and deletion scrubs both';
+end $$;
+
 do $$ begin raise notice '=== ALL INVARIANT TESTS PASSED — rolling back ==='; end $$;
 
 rollback;
