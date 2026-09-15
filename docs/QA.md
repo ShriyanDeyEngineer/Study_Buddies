@@ -538,8 +538,8 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
 
 - [ ] **Onboarding**: step 1 shows First name and Last name, both
       prefilled from the Google account. Clearing either and pressing
-      Finish jumps back to step 1 with "Enter your first/last name." and
-      nothing is saved.
+      Next keeps you on step 1 with "Enter your first/last name." under
+      the field, so Finish can't be reached without both.
 - [ ] **Public name**: after onboarding, the header, profile page, people
       search, group roster and chat all show "First Last". The dashboard
       greets you by first name only.
