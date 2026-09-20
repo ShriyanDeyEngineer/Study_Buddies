@@ -70,6 +70,22 @@ distinct test accounts (use `yourname+1@umn.edu` style aliases).
 - [ ] Course page lists active groups, each with the correct join
       control; "Create a group for this course" works.
 
+## Join & Create — finding a group without the catalog
+
+- [ ] /courses shows "Existing study groups" ABOVE the course list, with
+      each group's course code(s), members/capacity, mode, join control.
+- [ ] Group search matches the group NAME and any of its course codes
+      ("MATH 1271" finds a group tagged with it but not named after it);
+      the open/closed filter narrows the list; both live in the URL and
+      survive a refresh.
+- [ ] With more than 6 matches, "Show all N groups" expands the list and
+      KEEPS the current search/filter.
+- [ ] "Create a group" in the header opens /groups/new with no course
+      pre-selected — creating a group never requires opening a course
+      first.
+- [ ] Course search and group search don't disturb each other: filtering
+      the catalog leaves the group list as it was, and vice versa.
+
 ## Groups — creating & joining
 
 - [ ] Creation form: capacity outside 2–50 and empty name give inline
@@ -79,6 +95,39 @@ distinct test accounts (use `yourname+1@umn.edu` style aliases).
 - [ ] "My course isn't listed" path creates course + group together.
 - [ ] Duplicate group name within one course → inline NAME_TAKEN error
       on the name field.
+
+### Groups spanning several courses
+
+- [ ] The form refuses to submit with NO course tagged (button disabled,
+      and a hand-crafted POST gives the inline "pick at least one" error).
+- [ ] Tagging MATH 1271 + MATH 1371 creates ONE group; it then appears on
+      BOTH course pages, each showing "Also for <the other codes>".
+- [ ] The first course tagged is marked "(main)" and is the one a
+      group_disbanded / removed_from_group notification links to.
+- [ ] Removing a course chip un-tags it; the group is created with only
+      the chips still shown.
+- [ ] Tagging a course REFRESHES the invite list: someone enrolled only
+      in the second course becomes invitable, and inviting them works
+      (this was impossible when a group had one course).
+- [ ] Un-tagging a course whose classmate was already checked quietly
+      drops that person — submitting never sends an invite the database
+      would reject with INVALID_INVITEE.
+- [ ] The picker stops at 10 courses: the search box disables and says so.
+- [ ] Name uniqueness is per SHARED course — with "Calc Crew" in
+      MATH 1271:
+      - a new "calc crew" tagged MATH 1271 → inline NAME_TAKEN
+        (case-insensitive);
+      - a new "Calc Crew" tagged only CSCI 1133 → allowed;
+      - a new "Calc Crew" tagged CSCI 1133 + MATH 1271 → NAME_TAKEN,
+        even though its MAIN course is free;
+      - renaming an existing group onto a name taken in any course it
+        shares → NAME_TAKEN on the name field.
+- [ ] A group's course codes render everywhere it appears: group page
+      header, non-member preview, dashboard card, course pages, group
+      settings, /admin/groups, /admin/people. Past two codes, cards
+      collapse to "+N" (full list in the title tooltip).
+- [ ] Catalog group counts count a multi-course group under EACH of its
+      courses (a group tagged 1271+1371 raises both counts by one).
 - [ ] Join button states: Join (open), Request to join (closed),
       Requested ✓ (click withdraws), Member, Manager, Full, Unavailable
       — and a member of a full group sees Member, not Full.

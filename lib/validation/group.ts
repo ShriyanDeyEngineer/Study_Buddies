@@ -11,6 +11,7 @@ import { containsProfanity, PROFANITY_NAME_MESSAGE, PROFANITY_TEXT_MESSAGE } fro
 import {
   GROUP_CAPACITY_MAX,
   GROUP_CAPACITY_MIN,
+  GROUP_COURSES_MAX,
   GROUP_DESCRIPTION_MAX,
   GROUP_NAME_MAX,
 } from "@/lib/constants";
@@ -41,9 +42,27 @@ export const groupModeSchema = z.enum(["open", "closed"], {
   errorMap: () => ({ message: "Choose open or closed." }),
 });
 
+/**
+ * The courses a group is for. At least one is required; the list is
+ * de-duplicated here so picking the same course twice (possible if the
+ * form is bypassed) isn't an error, just a no-op.
+ */
+export const groupCourseIdsSchema = z
+  .array(uuid)
+  .transform((ids) => [...new Set(ids)])
+  .pipe(
+    z
+      .array(uuid)
+      .min(1, "Pick at least one course this group is for.")
+      .max(
+        GROUP_COURSES_MAX,
+        `Tag up to ${GROUP_COURSES_MAX} courses — that's plenty for equivalent classes.`,
+      ),
+  );
+
 export const createGroupSchema = z
   .object({
-    course_id: uuid,
+    course_ids: groupCourseIdsSchema,
     name: groupNameSchema,
     description: groupDescriptionSchema,
     capacity: capacitySchema,

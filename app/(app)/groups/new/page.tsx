@@ -1,18 +1,21 @@
 /**
- * Create-a-group page (/groups/new). Two paths (spec §5.6):
+ * Create-a-group page (/groups/new). Three ways in (spec §5.6):
  *
- *   1. ?course=<id> — the normal path from a course page. The invite
- *      picker is offered, listing ONLY classmates currently enrolled in
- *      that course (fetched here via get_course_classmates, which also
- *      applies privacy + block rules).
- *   2. No course / "my course isn't listed" — the student supplies the
- *      course's department, number, and name, and we find-or-create the
- *      course before creating the group. No picker in this path: a
+ *   1. No parameter — from "Create a group" on Join & Create. The form
+ *      asks which courses the group is for; nothing is pre-tagged. This
+ *      is the main path now that a group can cover SEVERAL courses
+ *      (0043), because there's no single course to start from.
+ *   2. ?course=<id> — from a course page. That course starts tagged (and
+ *      becomes the primary), and more can be added in the form.
+ *   3. ?course=custom — "my course isn't listed": the student supplies
+ *      the department, number, and name, and we find-or-create the course
+ *      before creating the group. No invite picker in this path: a
  *      brand-new course has no enrolled classmates to invite.
  */
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { courseCode, type CourseRow, type PublicProfile } from "@/lib/types";
+import { getCourseCatalog } from "@/lib/data/course-catalog";
+import type { PublicProfile } from "@/lib/types";
 import { CreateGroupForm } from "./create-group-form";
 
 const UUID_RE =
@@ -26,31 +29,35 @@ export default async function NewGroupPage({
   searchParams: Promise<{ course?: string }>;
 }) {
   const { course: courseParam } = await searchParams;
-  const supabase = await createClient();
-
-  // No course chosen yet → send them to pick one first (the spec makes
-  // creation reachable "only with a course selected"; the custom-course
-  // form is the explicit exception, reached via ?course=custom).
-  if (!courseParam) redirect("/courses");
 
   if (courseParam === "custom") {
-    return <CreateGroupForm course={null} classmates={[]} />;
+    return <CreateGroupForm variant="custom" />;
+  }
+
+  // The catalog the picker searches. Cached and identical for everyone,
+  // so this costs nothing per visit (lib/data/course-catalog.ts).
+  const { courses } = await getCourseCatalog();
+
+  // No course given: the ordinary path from Join & Create. The form asks.
+  if (!courseParam) {
+    return <CreateGroupForm courses={courses} />;
   }
 
   if (!UUID_RE.test(courseParam)) notFound();
+  if (!courses.some((c) => c.id === courseParam)) notFound();
 
-  const [courseRes, classmatesRes] = await Promise.all([
-    supabase.from("courses").select("*").eq("id", courseParam).maybeSingle(),
-    supabase.rpc("get_course_classmates", { p_course_id: courseParam }),
-  ]);
-
-  const course = courseRes.data as CourseRow | null;
-  if (!course) notFound();
+  // Arrived from a course page — pre-tag it, and pre-load the people that
+  // course lets you invite so the picker is populated on first paint.
+  const supabase = await createClient();
+  const { data: classmates } = await supabase.rpc("get_courses_classmates", {
+    p_course_ids: [courseParam],
+  });
 
   return (
     <CreateGroupForm
-      course={{ id: course.id, label: `${courseCode(course)} — ${course.course_name}` }}
-      classmates={(classmatesRes.data ?? []) as PublicProfile[]}
+      courses={courses}
+      initialCourseIds={[courseParam]}
+      initialClassmates={(classmates ?? []) as PublicProfile[]}
     />
   );
 }

@@ -3,23 +3,26 @@
  * observation view. Admins see this WITHOUT joining anything.
  */
 import { getSessionProfile } from "@/lib/supabase/server";
-import { courseCode, type CourseRow, type StudyGroupRow } from "@/lib/types";
+import {
+  formatCourseCodes,
+  groupCourseCodes,
+  GROUP_WITH_COURSES_SELECT,
+  type GroupWithCourses,
+} from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 
 export const metadata = { title: "Groups · Admin" };
 
-type GroupWithCourse = StudyGroupRow & { courses: CourseRow };
-
 export default async function AdminGroupsPage() {
   const { supabase } = await getSessionProfile();
   const groupsRes = await supabase
     .from("study_groups")
-    .select("*, courses(*)")
+    .select(GROUP_WITH_COURSES_SELECT)
     .order("last_activity_at", { ascending: false })
     .limit(300);
-  const groups = (groupsRes.data ?? []) as GroupWithCourse[];
+  const groups = (groupsRes.data ?? []) as unknown as GroupWithCourses[];
 
   return (
     <div>
@@ -38,7 +41,7 @@ export default async function AdminGroupsPage() {
               <span className="min-w-0">
                 <span className="block truncate font-medium text-ink">{group.name}</span>
                 <span className="block text-xs text-ink-muted">
-                  {courseCode(group.courses)} · {group.member_count}/{group.capacity} members ·
+                  {formatCourseCodes(groupCourseCodes(group))} · {group.member_count}/{group.capacity} members ·
                   active {formatDistanceToNow(new Date(group.last_activity_at), { addSuffix: true })}
                 </span>
               </span>

@@ -52,6 +52,11 @@ export const GROUP_CAPACITY_MAX = 50;
 export const GROUP_CAPACITY_DEFAULT = 8;
 export const GROUP_NAME_MAX = 100;
 export const GROUP_DESCRIPTION_MAX = 2000;
+/** A group can span several equivalent courses (CSE vs CLA calculus).
+ *  The cap keeps that a study group rather than a broadcast — mirrors
+ *  the TOO_MANY_COURSES check in create_study_group (0043). */
+export const GROUP_COURSES_MIN = 1;
+export const GROUP_COURSES_MAX = 10;
 
 /** Chat and DMs share one limit (spec §5.8/§5.12). */
 export const MESSAGE_MAX_LENGTH = 2000;

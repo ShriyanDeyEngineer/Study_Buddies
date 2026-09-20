@@ -25,7 +25,8 @@ export const FRIENDLY_MESSAGES: Record<string, string> = {
   GROUP_FULL: "This group is full.",
   GROUP_NOT_FOUND: "We couldn't find that group. It may have been disbanded.",
   GROUP_UNAVAILABLE: "This group isn't active anymore.",
-  NAME_TAKEN: "A group with that name already exists for this course — pick another name.",
+  NAME_TAKEN:
+    "A group with that name already exists in one of these courses — pick another name.",
   NOT_MANAGER: "Only the group's manager can do that.",
   NOT_MEMBER: "You're not a member of this group.",
   ALREADY_MEMBER: "You're already in this group.",
@@ -38,8 +39,10 @@ export const FRIENDLY_MESSAGES: Record<string, string> = {
     "Capacity can't be lower than the group's current member count.",
   INVALID_MODE: "Choose open or closed.",
   TOO_MANY_INVITES: "You can't invite more people than the group can hold.",
-  INVALID_INVITEE: "One of your invitees isn't enrolled in this course.",
+  INVALID_INVITEE: "One of your invitees isn't enrolled in any of these courses.",
   COURSE_NOT_FOUND: "We couldn't find that course.",
+  NO_COURSES: "Pick at least one course this group is for.",
+  TOO_MANY_COURSES: "That's too many courses for one group.",
 
   // ── Requests / invitations ───────────────────────────────────────────
   REQUEST_NOT_FOUND: "That request doesn't exist anymore.",

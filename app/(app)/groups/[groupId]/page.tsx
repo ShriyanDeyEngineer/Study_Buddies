@@ -16,7 +16,9 @@ import { getSessionProfile } from "@/lib/supabase/server";
 import { getJoinState } from "@/lib/groups/join-state";
 import { CHAT_PAGE_SIZE, GROUP_RESOURCES_LIMIT } from "@/lib/constants";
 import {
-  courseCode,
+  formatCourseCodes,
+  groupCourseCodes,
+  GROUP_WITH_COURSES_SELECT,
   type AvailabilityPollRow,
   type AvailabilitySlotRow,
   type CourseRow,
@@ -27,7 +29,7 @@ import {
   type MeetupAttendanceRow,
   type MeetupRow,
   type PublicProfile,
-  type StudyGroupRow,
+  type GroupWithCourses,
 } from "@/lib/types";
 import { JoinButton } from "@/components/groups/join-button";
 import { InvitationBanner } from "@/components/groups/invitation-banner";
@@ -60,7 +62,7 @@ export default async function GroupPage({
   // group fetch cost a whole extra round trip on every render AND every
   // post-action refresh, for no dependency.
   const [groupRes, membershipRes] = await Promise.all([
-    supabase.from("study_groups").select("*, courses(*)").eq("id", groupId).maybeSingle(),
+    supabase.from("study_groups").select(GROUP_WITH_COURSES_SELECT).eq("id", groupId).maybeSingle(),
     supabase
       .from("study_group_members")
       .select("user_id")
@@ -68,8 +70,12 @@ export default async function GroupPage({
       .eq("user_id", profile.id)
       .maybeSingle(),
   ]);
-  const group = groupRes.data as (StudyGroupRow & { courses: CourseRow }) | null;
+  const group = groupRes.data as unknown as GroupWithCourses | null;
   if (!group) notFound();
+
+  // A group can be for several equivalent courses (0043) — every header
+  // that used to print one code prints the whole list.
+  const courseCodes = group ? groupCourseCodes(group) : [];
 
   // Membership decides which page this is. (RLS lets me see my own row.)
   const isMember = !!membershipRes.data;
@@ -127,7 +133,7 @@ export default async function GroupPage({
         <Card>
           <CardContent className="text-center">
             <p className="text-sm font-medium uppercase tracking-wide text-primary">
-              {courseCode(group.courses)}
+              {courseCodes.join(" · ")}
             </p>
             <h1 className="mt-1 break-words font-display text-3xl text-ink">{group.name}</h1>
             {group.description && (
@@ -304,8 +310,14 @@ export default async function GroupPage({
     <div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
+          {/* The course NAME belongs to one course, so it only appears
+              when there IS one — "MATH 1271 · MATH 1371 · Calculus II"
+              would read as if the name covered both. */}
           <p className="text-sm font-medium uppercase tracking-wide text-primary">
-            {courseCode(group.courses)} · {group.courses.course_name}
+            {courseCodes.join(" · ")}
+            {courseCodes.length === 1 && group.courses
+              ? ` · ${group.courses.course_name}`
+              : ""}
           </p>
           <h1 className="break-words font-display text-3xl text-ink">{group.name}</h1>
           {group.description && (
@@ -346,7 +358,7 @@ export default async function GroupPage({
           meetups={meetups}
           attendance={attendance}
           groupName={group.name}
-          courseLabel={courseCode(group.courses)}
+          courseLabel={formatCourseCodes(courseCodes)}
           profiles={profilesById}
         />
         <MembersPanel

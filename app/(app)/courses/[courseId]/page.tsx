@@ -9,15 +9,12 @@
  */
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Plus, Users } from "lucide-react";
+import { Plus } from "lucide-react";
 import { getSessionProfile } from "@/lib/supabase/server";
 import { getCourseWithGroups } from "@/lib/data/course-catalog";
 import { courseCode } from "@/lib/types";
-import { getJoinState } from "@/lib/groups/join-state";
-import { JoinButton } from "@/components/groups/join-button";
-import { Badge } from "@/components/ui/badge";
+import { GroupRow, viewerJoinState } from "@/components/groups/group-row";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
 
@@ -125,41 +122,17 @@ export default async function CourseDetailPage({
                   />
           ) : (
           <ul className="grid gap-4 sm:grid-cols-2">
-            {filteredGroups.map((group) => {
-              const state = getJoinState({
-                groupStatus: group.status,
-                mode: group.mode,
-                memberCount: group.member_count,
-                capacity: group.capacity,
-                isManager: group.manager_id === profile.id,
-                isMember: myGroupIds.has(group.id),
-                hasPendingRequest: myPendingIds.has(group.id),
-              });
-              return (
-                <li key={group.id}>
-                  
-                    <Card>
-                      <CardContent className="flex items-center justify-between gap-4">
-                        <div className="min-w-0">
-                          <Link href={`/groups/${group.id}`} className="truncate font-display text-lg text-ink hover:underline focus-visible:outline-2 focus-visible:outline-primary">
-                            {group.name}
-                          </Link>
-                          <div className="mt-1.5 flex items-center gap-3 text-sm text-ink-muted">
-                            <span className="inline-flex items-center gap-1.5">
-                              <Users aria-hidden className="h-4 w-4" />
-                              {group.member_count}/{group.capacity}
-                            </span>
-                            <Badge variant={group.mode === "open" ? "success" : "warning"}>
-                              {group.mode === "open" ? "Open — join instantly" : "Closed — request to join"}
-                            </Badge>
-                          </div>
-                        </div>
-                        <JoinButton groupId={group.id} state={state} />
-                      </CardContent>
-                    </Card>
-                </li>
-              );
-            })}
+            {filteredGroups.map((group) => (
+              <li key={group.id}>
+                {/* omitCourseCode: every group here is in THIS course, so
+                    the row names only the other courses it also covers. */}
+                <GroupRow
+                  group={group}
+                  state={viewerJoinState(group, profile.id, myGroupIds, myPendingIds)}
+                  omitCourseCode={courseCode(course)}
+                />
+              </li>
+            ))}
           </ul>
           )}
         </div>

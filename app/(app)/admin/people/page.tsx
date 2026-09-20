@@ -10,7 +10,13 @@
  */
 import Link from "next/link";
 import { getSessionProfile } from "@/lib/supabase/server";
-import { courseCode, type CourseRow, type ProfileRow, type StudyGroupRow } from "@/lib/types";
+import {
+  formatCourseCodes,
+  groupCourseCodes,
+  GROUP_WITH_COURSES_SELECT,
+  type GroupWithCourses,
+  type ProfileRow,
+} from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
@@ -20,7 +26,7 @@ import { Search } from "lucide-react";
 export const metadata = { title: "People · Admin" };
 
 type MemberRow = { user_id: string; group_id: string };
-type GroupRow = StudyGroupRow & { courses: CourseRow };
+type GroupRow = GroupWithCourses;
 
 export default async function AdminPeoplePage({
   searchParams,
@@ -53,7 +59,7 @@ export default async function AdminPeoplePage({
 
   const groupIds = [...new Set(members.map((m) => m.group_id))];
   const groupsRes = groupIds.length
-    ? await supabase.from("study_groups").select("*, courses(*)").in("id", groupIds)
+    ? await supabase.from("study_groups").select(GROUP_WITH_COURSES_SELECT).in("id", groupIds)
     : { data: [] };
   const groupsById = Object.fromEntries(
     ((groupsRes.data ?? []) as GroupRow[]).map((g) => [g.id, g]),
@@ -132,7 +138,7 @@ export default async function AdminPeoplePage({
                                 href={`/admin/groups/${group.id}`}
                                 className="inline-block rounded-full border border-line px-2.5 py-1 text-xs text-ink hover:border-primary hover:text-primary"
                               >
-                                {courseCode(group.courses)} · {group.name}
+                                {formatCourseCodes(groupCourseCodes(group))} · {group.name}
                               </Link>
                             </li>
                           ))}

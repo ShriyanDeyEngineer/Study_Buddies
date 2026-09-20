@@ -67,6 +67,9 @@ export function courseCode(course: Pick<CourseRow, "department_code" | "course_n
 
 export interface StudyGroupRow {
   id: string;
+  /** The PRIMARY course only — the first one tagged at creation. A group
+   *  can be for several equivalent courses (MATH 1271 and MATH 1371);
+   *  study_group_courses is the full list. See GroupWithCourses. */
   course_id: string;
   name: string;
   description: string | null;
@@ -78,6 +81,63 @@ export interface StudyGroupRow {
   last_activity_at: string;
   created_at: string;
   updated_at: string;
+}
+
+/**
+ * The select every page that DISPLAYS a group must use.
+ *
+ * WHY IT'S SPELLED OUT LIKE THIS: study_groups now reaches `courses` by
+ * TWO routes — the primary-course FK, and many-to-many through
+ * study_group_courses (0043). A bare `courses(*)` is therefore ambiguous
+ * and PostgREST rejects the whole query with PGRST201, so both sides must
+ * name their relationship. Keep it as one constant: six pages select
+ * groups, and a copy that drifts fails at runtime, not at build time.
+ */
+export const GROUP_WITH_COURSES_SELECT =
+  "*, courses!study_groups_course_id_fkey(*), all_courses:courses!study_group_courses(*)";
+
+/**
+ * A group with its courses joined in, as GROUP_WITH_COURSES_SELECT
+ * returns them: `courses` is the primary course, `all_courses` is every
+ * tagged course (unordered — use groupCourses() to render them).
+ */
+export type GroupWithCourses = StudyGroupRow & {
+  courses: CourseRow | null;
+  all_courses: CourseRow[];
+};
+
+/**
+ * Every course a group is tagged with, PRIMARY FIRST and the rest sorted
+ * by code. The join table has no ordering of its own, so this is what
+ * makes "MATH 1271, MATH 1371" render the same way on every page instead
+ * of in whatever order Postgres happened to return.
+ */
+export function groupCourses(group: GroupWithCourses): CourseRow[] {
+  const all = group.all_courses ?? [];
+
+  // Defensive: a partial select or a group whose join rows went missing
+  // still renders with its primary code rather than blank.
+  if (all.length === 0) return group.courses ? [group.courses] : [];
+
+  return [...all].sort((a, b) => {
+    if (a.id === group.course_id) return -1;
+    if (b.id === group.course_id) return 1;
+    return courseCode(a).localeCompare(courseCode(b));
+  });
+}
+
+/** ["MATH 1271", "MATH 1371"] — group course codes, primary first. */
+export function groupCourseCodes(group: GroupWithCourses): string[] {
+  return groupCourses(group).map(courseCode);
+}
+
+/**
+ * Course codes as one line, capped so a group tagged with eight courses
+ * doesn't blow out a card: "MATH 1271, MATH 1371 +2".
+ */
+export function formatCourseCodes(codes: string[], max = 2): string {
+  if (codes.length <= max) return codes.join(", ");
+  return `${codes.slice(0, max).join(", ")} +${codes.length - max}`;
 }
 
 export interface GroupMemberRow {

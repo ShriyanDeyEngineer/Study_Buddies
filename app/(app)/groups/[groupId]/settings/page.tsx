@@ -8,7 +8,11 @@
  */
 import { notFound } from "next/navigation";
 import { getSessionProfile } from "@/lib/supabase/server";
-import { courseCode, type CourseRow, type StudyGroupRow } from "@/lib/types";
+import {
+  groupCourseCodes,
+  GROUP_WITH_COURSES_SELECT,
+  type GroupWithCourses,
+} from "@/lib/types";
 import { SettingsForm } from "./settings-form";
 
 const UUID_RE =
@@ -29,10 +33,10 @@ export default async function GroupSettingsPage({
 
   const { data } = await supabase
     .from("study_groups")
-    .select("*, courses(*)")
+    .select(GROUP_WITH_COURSES_SELECT)
     .eq("id", groupId)
     .maybeSingle();
-  const group = data as (StudyGroupRow & { courses: CourseRow }) | null;
+  const group = data as unknown as GroupWithCourses | null;
 
   // Missing, disbanded, or simply not yours — all the same 404.
   if (!group || group.status !== "active" || group.manager_id !== profile.id) {
@@ -42,7 +46,7 @@ export default async function GroupSettingsPage({
   return (
     <div className="mx-auto max-w-xl">
       <p className="text-sm font-medium uppercase tracking-wide text-primary">
-        {courseCode(group.courses)}
+        {groupCourseCodes(group).join(" · ")}
       </p>
       <h1 className="font-display text-3xl text-ink">Group settings</h1>
       <p className="mt-1 mb-6 text-ink-muted">

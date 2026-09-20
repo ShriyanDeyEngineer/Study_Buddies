@@ -9,8 +9,9 @@
 import { notFound } from "next/navigation";
 import { getSessionProfile } from "@/lib/supabase/server";
 import {
-  courseCode,
-  type CourseRow,
+  groupCourseCodes,
+  GROUP_WITH_COURSES_SELECT,
+  type GroupWithCourses,
   type GroupMemberRow,
   type GroupMessageRow,
   type GroupResourceRow,
@@ -42,10 +43,10 @@ export default async function AdminGroupPage({
   const { supabase } = await getSessionProfile();
   const groupRes = await supabase
     .from("study_groups")
-    .select("*, courses(*)")
+    .select(GROUP_WITH_COURSES_SELECT)
     .eq("id", groupId)
     .maybeSingle();
-  const group = groupRes.data as (StudyGroupRow & { courses: CourseRow }) | null;
+  const group = groupRes.data as unknown as GroupWithCourses | null;
   if (!group) notFound();
 
   const [messagesRes, membersRes, meetupsRes, resourcesRes, flagsRes] =
@@ -116,7 +117,7 @@ export default async function AdminGroupPage({
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm font-medium uppercase tracking-wide text-primary">
-            {courseCode(group.courses)} · read-only observation
+            {groupCourseCodes(group).join(" · ")} · read-only observation
           </p>
           <h2 className="break-words font-display text-2xl text-ink">{group.name}</h2>
         </div>

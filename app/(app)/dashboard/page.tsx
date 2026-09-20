@@ -11,7 +11,14 @@
 import Link from "next/link";
 import { Search, Sparkles } from "lucide-react";
 import { getSessionProfile } from "@/lib/supabase/server";
-import { courseCode, type CourseRow, type MeetupRow, type StudyGroupRow } from "@/lib/types";
+import {
+  courseCode,
+  groupCourseCodes,
+  GROUP_WITH_COURSES_SELECT,
+  type CourseRow,
+  type GroupWithCourses,
+  type MeetupRow,
+} from "@/lib/types";
 import { GroupCard } from "@/components/groups/group-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
@@ -23,7 +30,6 @@ import { pluralize } from "@/lib/utils";
 
 /** Row shapes for this page's joined queries (see lib/types.ts for why
  *  results are cast). */
-type GroupWithCourse = StudyGroupRow & { courses: CourseRow };
 type SuggestedPerson = {
   id: string;
   display_name: string;
@@ -48,19 +54,24 @@ export default async function DashboardPage() {
         .select("course_id, courses(*)")
         .eq("user_id", profile.id)
         .eq("enrollment_type", "current"),
-      supabase.from("study_groups").select("id, course_id, courses(*)").eq("status", "active"),
+      // One row per (group, COURSE) since 0043, so a group tagged with
+      // equivalent courses counts toward each of them.
+      supabase
+        .from("study_group_courses")
+        .select("group_id, course_id, courses(*), study_groups!inner(status)")
+        .eq("study_groups.status", "active"),
       supabase.rpc("suggested_people"),
     ]);
 
   const myGroupIds = (membershipsRes.data ?? []).map((m) => m.group_id as string);
 
-  let myGroups: GroupWithCourse[] = [];
+  let myGroups: GroupWithCourses[] = [];
   let upcomingByGroup = new Map<string, MeetupRow>();
   if (myGroupIds.length > 0) {
     const [groupsRes, meetupsRes] = await Promise.all([
       supabase
         .from("study_groups")
-        .select("*, courses(*)")
+        .select(GROUP_WITH_COURSES_SELECT)
         .in("id", myGroupIds)
         .eq("status", "active")
         .order("last_activity_at", { ascending: false }),
@@ -72,7 +83,7 @@ export default async function DashboardPage() {
         .gt("scheduled_at", new Date().toISOString())
         .order("scheduled_at", { ascending: true }),
     ]);
-    myGroups = (groupsRes.data ?? []) as GroupWithCourse[];
+    myGroups = (groupsRes.data ?? []) as unknown as GroupWithCourses[];
     // First upcoming meetup per group (list is already time-ordered).
     upcomingByGroup = new Map();
     for (const meetup of (meetupsRes.data ?? []) as MeetupRow[]) {
@@ -88,13 +99,14 @@ export default async function DashboardPage() {
   }[];
 
   // Active-group counts per course, shared by sections 2 and 3.
-  const activeGroups = (activeGroupsRes.data ?? []) as unknown as {
-    id: string;
+  const activeGroupCourses = (activeGroupsRes.data ?? []) as unknown as {
+    group_id: string;
     course_id: string;
-    courses: CourseRow;
+    courses: CourseRow | null;
   }[];
   const groupCountByCourse = new Map<string, { course: CourseRow; count: number }>();
-  for (const row of activeGroups) {
+  for (const row of activeGroupCourses) {
+    if (!row.courses) continue;
     const entry = groupCountByCourse.get(row.course_id);
     if (entry) entry.count += 1;
     else groupCountByCourse.set(row.course_id, { course: row.courses, count: 1 });
@@ -143,7 +155,7 @@ export default async function DashboardPage() {
                   <GroupCard
                     groupId={group.id}
                     name={group.name}
-                    courseLabel={courseCode(group.courses)}
+                    courseLabels={groupCourseCodes(group)}
                     memberCount={group.member_count}
                     capacity={group.capacity}
                     mode={group.mode}

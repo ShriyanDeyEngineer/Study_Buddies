@@ -7,6 +7,7 @@
 import { describe, expect, it } from "vitest";
 import { messageContentSchema } from "@/lib/validation/message";
 import { createGroupSchema } from "@/lib/validation/group";
+import { GROUP_COURSES_MAX } from "@/lib/constants";
 import { addCourseSchema, courseRequestSchema } from "@/lib/validation/course";
 import { profileSchema } from "@/lib/validation/profile";
 import { reportSchema } from "@/lib/validation/report";
@@ -29,7 +30,7 @@ describe("message length (chat + DMs share the rule)", () => {
 describe("group creation", () => {
   function group(overrides: Record<string, unknown> = {}) {
     return createGroupSchema.safeParse({
-      course_id: UUID,
+      course_ids: [UUID],
       name: "Problem Set Crew",
       description: "",
       capacity: 8,
@@ -71,7 +72,30 @@ describe("group creation", () => {
 
   it("rejects unknown modes and bad course ids", () => {
     expect(group({ mode: "secret" }).success).toBe(false);
-    expect(group({ course_id: "not-a-uuid" }).success).toBe(false);
+    expect(group({ course_ids: ["not-a-uuid"] }).success).toBe(false);
+  });
+
+  // A group can span equivalent courses (MATH 1271 / MATH 1371), but it
+  // has to be for at least one, and the list is capped — mirrors the
+  // NO_COURSES / TOO_MANY_COURSES checks in create_study_group (0043).
+  it("requires at least one course", () => {
+    expect(group({ course_ids: [] }).success).toBe(false);
+  });
+
+  it("accepts several courses and caps the list at GROUP_COURSES_MAX", () => {
+    const ids = (n: number) =>
+      Array.from({ length: n }, (_, i) =>
+        UUID.replace(/^.{2}/, String(i + 10).padStart(2, "0")),
+      );
+    expect(group({ course_ids: ids(2) }).success).toBe(true);
+    expect(group({ course_ids: ids(GROUP_COURSES_MAX) }).success).toBe(true);
+    expect(group({ course_ids: ids(GROUP_COURSES_MAX + 1) }).success).toBe(false);
+  });
+
+  it("de-duplicates repeated course ids rather than failing", () => {
+    const result = group({ course_ids: [UUID, UUID] });
+    expect(result.success).toBe(true);
+    expect(result.success && result.data.course_ids).toEqual([UUID]);
   });
 });
 

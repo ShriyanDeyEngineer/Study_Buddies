@@ -10,6 +10,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import {
   createGroupSchema,
@@ -19,13 +20,14 @@ import {
 import { friendlyError } from "@/lib/errors";
 import { COURSE_CATALOG_TAG } from "@/lib/data/course-catalog";
 import type { ActionResult } from "@/lib/actions/types";
+import type { PublicProfile } from "@/lib/types";
 
 export async function createGroupAction(
   _prev: ActionResult,
   formData: FormData,
 ): Promise<ActionResult> {
   const parsed = createGroupSchema.safeParse({
-    course_id: formData.get("course_id"),
+    course_ids: formData.getAll("course_ids").map(String),
     name: formData.get("name"),
     description: formData.get("description"),
     capacity: formData.get("capacity"),
@@ -38,7 +40,7 @@ export async function createGroupAction(
 
   const supabase = await createClient();
   const { data: groupId, error } = await supabase.rpc("create_study_group", {
-    p_course_id: parsed.data.course_id,
+    p_course_ids: parsed.data.course_ids,
     p_name: parsed.data.name,
     p_description: parsed.data.description,
     p_capacity: parsed.data.capacity,
@@ -46,15 +48,22 @@ export async function createGroupAction(
     p_invitee_ids: parsed.data.invitee_ids,
   });
   if (error) {
-    // NAME_TAKEN and INVALID_DESCRIPTION belong on their own fields
-    // (inline, per-field errors are a §5.6 requirement); everything else
-    // is form-level.
+    // NAME_TAKEN, INVALID_DESCRIPTION and the course-list codes belong on
+    // their own fields (inline, per-field errors are a §5.6 requirement);
+    // everything else is form-level.
     const message = friendlyError(error);
     if (String(error.message).includes("NAME_TAKEN")) {
       return { fieldErrors: { name: [message] } };
     }
     if (String(error.message).includes("INVALID_DESCRIPTION")) {
       return { fieldErrors: { description: [message] } };
+    }
+    if (
+      String(error.message).includes("NO_COURSES") ||
+      String(error.message).includes("TOO_MANY_COURSES") ||
+      String(error.message).includes("COURSE_NOT_FOUND")
+    ) {
+      return { fieldErrors: { course_ids: [message] } };
     }
     return { error: message };
   }
@@ -109,7 +118,9 @@ export async function createGroupWithCourseAction(
   }
 
   const { data: groupId, error } = await supabase.rpc("create_study_group", {
-    p_course_id: courseId,
+    // A brand-new course, so the group is for exactly that one; students
+    // tag equivalent courses from the picker on the normal path.
+    p_course_ids: [courseId],
     p_name: parsed.data.name,
     p_description: parsed.data.description,
     p_capacity: parsed.data.capacity,
@@ -130,6 +141,28 @@ export async function createGroupWithCourseAction(
   // New course AND a new active group in it — both change the catalog.
   revalidateTag(COURSE_CATALOG_TAG);
   redirect(`/groups/${groupId}`);
+}
+
+/**
+ * Who the create-group form can invite, given the courses tagged SO FAR.
+ * Called from the client as the course selection changes, because the
+ * invite list is the union across every tagged course — that's the whole
+ * point of tagging equivalent courses. Privacy and block filtering all
+ * happen inside get_courses_classmates (0043), not here.
+ */
+export async function classmatesForCoursesAction(
+  courseIds: string[],
+): Promise<{ classmates: PublicProfile[]; error?: string }> {
+  const parsed = z.array(z.string().uuid()).safeParse(courseIds);
+  if (!parsed.success) return { classmates: [] };
+  if (parsed.data.length === 0) return { classmates: [] };
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_courses_classmates", {
+    p_course_ids: parsed.data,
+  });
+  if (error) return { classmates: [], error: friendlyError(error) };
+  return { classmates: (data ?? []) as PublicProfile[] };
 }
 
 /** The join button. Returns what happened so the UI can toast it:

@@ -1,6 +1,6 @@
 /**
  * Compact study-group card used on the dashboard and course pages:
- * name, course code, members vs capacity, open/closed badge, next
+ * name, course code(s), members vs capacity, open/closed badge, next
  * meetup if one is scheduled. The whole card links to the group page.
  */
 import Link from "next/link";
@@ -9,11 +9,12 @@ import { formatDistanceToNow } from "date-fns";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { pluralize } from "@/lib/utils";
+import { formatCourseCodes } from "@/lib/types";
 
 export function GroupCard({
   groupId,
   name,
-  courseLabel,
+  courseLabels,
   memberCount,
   capacity,
   mode,
@@ -22,7 +23,10 @@ export function GroupCard({
 }: {
   groupId: string;
   name: string;
-  courseLabel: string;
+  /** Every course the group is for, primary first. A group spanning
+   *  equivalent courses (MATH 1271 + MATH 1371) shows both; past two the
+   *  line collapses to "+N" so a card can't be pushed out of shape. */
+  courseLabels: string[];
   memberCount: number;
   capacity: number;
   mode: "open" | "closed";
@@ -37,8 +41,11 @@ export function GroupCard({
       <CardContent>
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-wide text-primary">
-              {courseLabel}
+            <p
+              className="text-xs font-medium uppercase tracking-wide text-primary"
+              title={courseLabels.join(", ")}
+            >
+              {formatCourseCodes(courseLabels)}
             </p>
             <h3 className="mt-0.5 truncate font-display text-lg text-ink">
               <Link
