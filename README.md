@@ -1,7 +1,7 @@
 # Study Buddies
 
 ## Contributors
-ShriyanDeyEngineer (Shriyan Dey), anonymous, aadisharma13 (Aadi Sharma), & ananymous. 
+ShriyanDeyEngineer (Shriyan Dey), anonymous, aadisharma13 (Aadi Sharma), & anonymous. 
 
 ## Description
 A website that helps students find other students to study with. Students can make and/or join study groups for separate courses.
