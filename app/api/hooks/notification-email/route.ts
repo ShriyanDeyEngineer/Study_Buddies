@@ -23,16 +23,21 @@
  * The recipient's email is looked up with the service-role client (RLS
  * would otherwise hide it), which is exactly why the secret is required.
  *
- * WHAT WE DON'T EMAIL: chat messages and DMs. Those arrive by the second;
- * emailing each one would be spam. The bell/badge handle those live.
+ * WHAT WE DON'T EMAIL HERE: chat messages and DMs. Those arrive by the
+ * second, and a webhook fires per row — one email each would be spam.
+ * Group chat is instead handled by app/api/hooks/chat-digest, which runs
+ * on a schedule and batches ("3 new messages in Algo Grinders") once a
+ * conversation has gone quiet. DMs remain in-app only.
  */
 import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendEmail } from "@/lib/email";
+import { buildEmail } from "@/lib/email-template";
 import { buildMeetupEmail } from "@/lib/meetup-email";
 import { renderNotification } from "@/lib/notifications";
 import { getSiteUrl } from "@/lib/site";
+import type { BuiltEmail } from "@/lib/email-template";
 import type { MeetupRow, NotificationRow } from "@/lib/types";
 
 /** Types worth an email. Everything else stays in-app only. */
@@ -143,21 +148,31 @@ export async function POST(request: Request) {
       ? await buildRichMeetupEmail(admin, notification, profile.display_name)
       : null;
 
-  await sendEmail(
-    rich
-      ? { to: profile.email, subject: rich.subject, text: rich.text }
-      : {
-          to: profile.email,
-          subject: `Study Buddies: ${message}`,
-          text:
-            `Hi ${profile.display_name ?? "there"},\n\n` +
-            `${message}\n\n` +
-            `Open it here: ${link}\n\n` +
-            `— Study Buddies\n` +
-            `You're getting this because a group or classmate did something that involves you. ` +
-            `Turn these emails off any time under Edit profile → Notifications.`,
-        },
-  );
+  const email =
+    rich ??
+    buildEmail({
+      subject: `Study Buddies: ${message}`,
+      preheader: message,
+      heading: message,
+      blocks: [
+        { text: `Hi ${profile.display_name ?? "there"},` },
+        { button: { label: "Open Study Buddies", url: link } },
+      ],
+      text:
+        `Hi ${profile.display_name ?? "there"},\n\n` +
+        `${message}\n\n` +
+        `Open it here: ${link}\n\n` +
+        `— Study Buddies\n` +
+        `You're getting this because a group or classmate did something that involves you. ` +
+        `Turn these emails off any time under Edit profile → Notifications.`,
+    });
+
+  await sendEmail({
+    to: profile.email,
+    subject: email.subject,
+    text: email.text,
+    html: email.html,
+  });
 
   return NextResponse.json({ sent: true });
 }
@@ -172,7 +187,7 @@ async function buildRichMeetupEmail(
   admin: ReturnType<typeof createAdminClient>,
   notification: NotificationRow,
   recipientName: string | null,
-): Promise<{ subject: string; text: string } | null> {
+): Promise<BuiltEmail | null> {
   const meetupId = notification.payload?.meetup_id;
   const groupId = notification.payload?.group_id;
   if (!meetupId) return null;

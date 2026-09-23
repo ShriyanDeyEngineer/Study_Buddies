@@ -13,6 +13,7 @@
  * — explicit beats silently using the server's zone (UTC on Vercel).
  */
 import { googleCalendarUrl } from "@/lib/calendar";
+import { buildEmail, type BuiltEmail } from "@/lib/email-template";
 import { formatDuration } from "@/lib/format";
 import { pluralize } from "@/lib/utils";
 
@@ -52,10 +53,7 @@ function centralClock(date: Date): string {
   }).format(date);
 }
 
-export function buildMeetupEmail(input: MeetupEmailInput): {
-  subject: string;
-  text: string;
-} {
+export function buildMeetupEmail(input: MeetupEmailInput): BuiltEmail {
   const startsAt = new Date(input.scheduledAtIso);
   const endsAt = new Date(startsAt.getTime() + input.durationMinutes * 60_000);
   const creator = input.creatorName ?? "A group member";
@@ -82,8 +80,23 @@ export function buildMeetupEmail(input: MeetupEmailInput): {
     details: `Study session with ${input.groupName} (via Study Buddies).`,
   });
 
-  return {
+  return buildEmail({
     subject: `Study Buddies: New meetup in ${input.groupName} — ${input.title}`,
+    preheader: `${input.title} — ${when}`,
+    heading: `${creator} scheduled a meetup for ${input.groupName}`,
+    blocks: [
+      { text: `Hi ${input.recipientName ?? "there"},` },
+      { detail: { label: "What", value: input.title } },
+      { detail: { label: "When", value: when } },
+      { detail: { label: "Where", value: where } },
+      { detail: { label: "Attending", value: attending } },
+      { button: { label: "RSVP and see details", url: input.groupUrl } },
+      { text: "Prefer it in your calendar?" },
+      { button: { label: "Add to Google Calendar", url: calendarUrl } },
+    ],
+    footerNote:
+      "You're getting this because you're in this study group. " +
+      "Turn these emails off any time under Edit profile → Notifications.",
     text:
       `Hi ${input.recipientName ?? "there"},\n\n` +
       `${creator} scheduled a new meetup for ${input.groupName}:\n\n` +
@@ -96,5 +109,5 @@ export function buildMeetupEmail(input: MeetupEmailInput): {
       `— Study Buddies\n` +
       `You're getting this because a group or classmate did something that involves you. ` +
       `Turn these emails off any time under Edit profile → Notifications.`,
-  };
+  });
 }

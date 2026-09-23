@@ -284,3 +284,17 @@ export async function deleteAccountAction(): Promise<{ error?: string }> {
   await supabase.auth.signOut({ scope: "local" });
   redirect("/");
 }
+
+/**
+ * Records that the walkthrough video has been offered to this student,
+ * so the one-time prompt doesn't fire again on their next device
+ * (migration 0044).
+ *
+ * Silent on failure: the worst case is being shown the tutorial twice,
+ * which is not worth an error message.
+ */
+export async function markTutorialSeenAction(): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("mark_tutorial_seen");
+  if (error) console.error("[mark_tutorial_seen]", error.message);
+}

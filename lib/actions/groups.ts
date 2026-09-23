@@ -279,3 +279,18 @@ export async function disbandGroupAction(groupId: string): Promise<{ error?: str
   revalidateTag(COURSE_CATALOG_TAG);
   redirect("/dashboard");
 }
+
+/**
+ * "I'm looking at this group now" — moves the caller's read mark so the
+ * chat digest (migration 0043) stops counting messages they've seen.
+ *
+ * Fired from the group page on mount rather than during render: a render
+ * can run more than once and must stay side-effect free, and this is a
+ * write. Failure is deliberately silent — a missed mark costs at worst
+ * one extra digest email, which is not worth interrupting anyone for.
+ */
+export async function markGroupReadAction(groupId: string): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("mark_group_read", { p_group_id: groupId });
+  if (error) console.error("[mark_group_read]", error.message);
+}

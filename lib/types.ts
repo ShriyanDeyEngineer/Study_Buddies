@@ -36,6 +36,8 @@ export interface ProfileRow {
   account_status: "active" | "paused" | "suspended" | "banned" | "deleted";
   /** Admin mute: account works, but cannot create content (0041). */
   is_muted: boolean;
+  /** When the walkthrough video was last offered. NULL = never (0044). */
+  tutorial_seen_at: string | null;
   is_admin: boolean;
   onboarded_at: string | null;
   last_login_at: string | null;
@@ -84,6 +86,11 @@ export interface GroupMemberRow {
   group_id: string;
   user_id: string;
   joined_at: string;
+  /** When this member last opened the group page; NULL = not since they
+   *  joined. Drives the batched chat digest (0043). */
+  last_read_at: string | null;
+  /** Newest message they've already been emailed about (0043). */
+  last_digest_at: string | null;
 }
 
 export interface JoinRequestRow {

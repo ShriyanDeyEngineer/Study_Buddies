@@ -20,6 +20,7 @@ import { getSessionProfile } from "@/lib/supabase/server";
 import { TERMS_VERSION } from "@/lib/site";
 import { suggestNameParts } from "@/lib/names";
 import { AppHeader } from "@/components/app/app-header";
+import { TutorialProvider } from "@/components/app/tutorial";
 import { MobileNav } from "@/components/app/app-nav";
 import {
   NameRequiredScreen,
@@ -76,30 +77,35 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const unreadMessages = counts?.unread_messages ?? 0;
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      {/* Hidden until focused — lets a keyboard user jump past the logo,
-          nav links, bell, and avatar menu instead of tabbing through all
-          of it on every single page. */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
-      >
-        Skip to main content
-      </a>
-      <AppHeader
-        profile={typedProfile}
-        unreadNotifications={unreadNotifications}
-        unreadMessages={unreadMessages}
-      />
-      {/* pb-20 keeps content clear of the mobile bottom bar. */}
-      <main id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 pb-20 md:pb-8">
-        {children}
-      </main>
-      <MobileNav
-        userId={typedProfile.id}
-        initialUnreadMessages={unreadMessages}
-        isAdmin={typedProfile.is_admin}
-      />
-    </div>
+    // Wraps the whole signed-in app so the account menu can open the
+    // walkthrough from anywhere, and so a brand-new account is offered it
+    // once on the first page they land on (migration 0044).
+    <TutorialProvider showOnFirstVisit={typedProfile.tutorial_seen_at === null}>
+      <div className="flex min-h-dvh flex-col">
+        {/* Hidden until focused — lets a keyboard user jump past the logo,
+            nav links, bell, and avatar menu instead of tabbing through all
+            of it on every single page. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+        >
+          Skip to main content
+        </a>
+        <AppHeader
+          profile={typedProfile}
+          unreadNotifications={unreadNotifications}
+          unreadMessages={unreadMessages}
+        />
+        {/* pb-20 keeps content clear of the mobile bottom bar. */}
+        <main id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 pb-20 md:pb-8">
+          {children}
+        </main>
+        <MobileNav
+          userId={typedProfile.id}
+          initialUnreadMessages={unreadMessages}
+          isAdmin={typedProfile.is_admin}
+        />
+      </div>
+    </TutorialProvider>
   );
 }

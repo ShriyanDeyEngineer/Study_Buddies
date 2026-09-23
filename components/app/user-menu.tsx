@@ -1,12 +1,14 @@
 /**
- * The avatar menu in the app header: view/edit profile, sign out.
+ * The avatar menu in the app header: view/edit profile, the walkthrough
+ * video, sign out.
  */
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-import { LogOut, Settings, UserRound, Users } from "lucide-react";
+import { LogOut, PlayCircle, Settings, UserRound, Users } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth";
+import { useTutorial } from "@/components/app/tutorial";
 import { Avatar } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -25,6 +27,8 @@ export function UserMenu({
   displayName: string | null;
   avatarUrl: string | null;
 }) {
+  const { open: openTutorial } = useTutorial();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -55,6 +59,14 @@ export function UserMenu({
             Friends &amp; Buddies
           </Link>
         </DropdownMenuItem>
+        {/* Only appears once a video is configured (lib/constants.ts) —
+            never a menu item that opens an empty player. */}
+        {openTutorial && (
+          <DropdownMenuItem onSelect={() => openTutorial()}>
+            <PlayCircle aria-hidden className="h-4 w-4" />
+            Watch the tutorial
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onSelect={() => {
