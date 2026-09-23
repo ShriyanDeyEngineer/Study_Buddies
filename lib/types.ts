@@ -86,6 +86,11 @@ export interface GroupMemberRow {
   group_id: string;
   user_id: string;
   joined_at: string;
+  /** When this member last opened the group page; NULL = not since they
+   *  joined. Drives the batched chat digest (0043). */
+  last_read_at: string | null;
+  /** Newest message they've already been emailed about (0043). */
+  last_digest_at: string | null;
 }
 
 export interface JoinRequestRow {
