@@ -116,3 +116,18 @@ export const MEETUP_DURATION_STEP = 15;
 /** Availability polls. */
 export const POLL_SLOTS_MIN = 2;
 export const POLL_SLOTS_MAX = 400; // ~2 weeks of 30-min grid cells (was 20 hand-typed slots)
+
+/**
+ * The walkthrough video shown from the account menu and, once, to brand
+ * new accounts (components/app/tutorial.tsx).
+ *
+ * PASTE THE YOUTUBE LINK HERE to switch the feature on. Any normal
+ * YouTube URL works — watch, youtu.be, or embed form. While this is
+ * empty the tutorial hides itself completely: no menu item, no prompt,
+ * no broken player. That is deliberate, so the app never ships a dead
+ * "Watch the tutorial" button.
+ *
+ * Unlisted is the right visibility: anyone with the link can watch (the
+ * embed needs that), but it doesn't show up on the channel or in search.
+ */
+export const TUTORIAL_VIDEO_URL = "";

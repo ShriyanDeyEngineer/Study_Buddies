@@ -32,6 +32,7 @@ import {
 import { JoinButton } from "@/components/groups/join-button";
 import { InvitationBanner } from "@/components/groups/invitation-banner";
 import { GroupChat } from "@/components/groups/group-chat";
+import { MarkGroupRead } from "@/components/groups/mark-group-read";
 import { MeetupsPanel } from "@/components/groups/meetups-panel";
 import { MembersPanel } from "@/components/groups/members-panel";
 import { PollsSection } from "@/components/groups/polls-section";
@@ -328,6 +329,10 @@ export default async function GroupPage({
           )}
         </div>
       </div>
+
+      {/* Opening the page counts as reading the chat — keeps the
+          batched digest (0043) from emailing about messages seen here. */}
+      <MarkGroupRead groupId={group.id} />
 
       {/* One render of each panel; CSS handles desktop vs mobile. */}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)]">

@@ -583,3 +583,72 @@ Throttle the network (DevTools → Slow 3G) to make failures obvious.
       ("computer science") opens with the list entry selected.
 - [ ] **Students filter**: the Major filter still lists the majors on
       profiles, and picking one finds those students.
+
+## Site updates — 2026-09-22
+
+### Loading states
+
+- [ ] Clicking into /settings/profile, /settings/courses, /groups/new and
+      any /admin page shows a grey skeleton immediately, not a blank
+      screen or a frozen previous page. Throttle the network to "Slow 3G"
+      in devtools to see it — on a fast connection it flashes by.
+- [ ] The skeleton is roughly the shape of what arrives (fields for the
+      forms, rows for the admin lists), so the page doesn't visibly jump
+      when the real content lands.
+- [ ] Every button that submits a form still shows its spinner and goes
+      disabled while the action runs (create group, request a course,
+      save settings) — double-clicking cannot submit twice.
+
+### Group chat digest — migration 0043
+
+Needs `NOTIFICATION_WEBHOOK_SECRET` set; see docs/SCHEDULED_JOBS.md.
+Trigger runs by hand with the curl command in that file.
+
+- [ ] U1 posts in a group U2 is in. Wait past QUIET_MINUTES, run the
+      job: U2 gets ONE email titled "N new messages in <group>", with
+      previews and a working link to the group.
+- [ ] Run the job again straight away — U2 gets nothing the second time
+      (no duplicate for messages already reported).
+- [ ] U2 opens the group page, THEN the job runs: no email, because
+      opening the page marks the chat read.
+- [ ] A message posted seconds ago produces no email — the conversation
+      has to go quiet first.
+- [ ] U2 in two busy groups gets ONE email covering both, not two.
+- [ ] U2 with email notifications off (Edit profile → Notifications)
+      gets nothing.
+- [ ] A member who joined today is never emailed about messages sent
+      before they joined.
+- [ ] Someone U2 blocked: their messages still count toward "N new
+      messages" but their text does NOT appear in the preview.
+- [ ] Hitting /api/hooks/chat-digest with no secret, or a wrong one,
+      returns 401 and sends nothing.
+
+### Email design
+
+- [ ] Notification, meetup and digest emails all arrive with the Study
+      Buddies header, a white card, forest-green headings and clay
+      buttons — not plain text.
+- [ ] Viewing the same email with images/HTML blocked still shows the
+      full message as readable plain text.
+- [ ] A group named with an apostrophe or angle bracket (e.g.
+      `Tom & Jerry's <group>`) renders literally in the email, with no
+      broken markup.
+- [ ] Every email's footer links to Edit profile, and turning
+      notifications off there actually stops them.
+- [ ] Emails are legible on a phone: nothing is cut off, buttons are
+      tappable, the card doesn't scroll sideways.
+
+### Tutorial video
+
+Needs `TUTORIAL_VIDEO_URL` set in lib/constants.ts.
+
+- [ ] With it EMPTY: no "Watch the tutorial" in the avatar menu, and no
+      prompt for a new account — the feature is invisible, not broken.
+- [ ] With a YouTube link set: a brand-new account sees the video dialog
+      once on their first signed-in page.
+- [ ] Dismissing it and navigating around does NOT bring it back; it
+      stays gone after signing in on another device (it's stored on the
+      profile, not in the browser).
+- [ ] "Watch the tutorial" in the avatar menu reopens it any time.
+- [ ] The player keeps its 16:9 shape at 375px and doesn't push the
+      dialog off-screen.

@@ -20,6 +20,7 @@ import { getSessionProfile } from "@/lib/supabase/server";
 import { TERMS_VERSION } from "@/lib/site";
 import { suggestNameParts } from "@/lib/names";
 import { AppHeader } from "@/components/app/app-header";
+import { TutorialProvider } from "@/components/app/tutorial";
 import { MobileNav } from "@/components/app/app-nav";
 import {
   NameRequiredScreen,
@@ -76,6 +77,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const unreadMessages = counts?.unread_messages ?? 0;
 
   return (
+    // Wraps the whole signed-in app so the account menu can open the
+    // walkthrough from anywhere, and so a brand-new account is offered it
+    // once on the first page they land on (migration 0044).
+    <TutorialProvider showOnFirstVisit={typedProfile.tutorial_seen_at === null}>
     <div className="flex min-h-dvh flex-col">
       {/* Hidden until focused — lets a keyboard user jump past the logo,
           nav links, bell, and avatar menu instead of tabbing through all
@@ -101,5 +106,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         isAdmin={typedProfile.is_admin}
       />
     </div>
+    </TutorialProvider>
   );
 }
