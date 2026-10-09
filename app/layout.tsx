@@ -16,6 +16,7 @@
 import type { Metadata } from "next";
 import { Roboto, DM_Serif_Display } from "next/font/google";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 /* Body/UI face. Two weights only (400/600) per the design spec — keeps
@@ -52,6 +53,7 @@ export default function RootLayout({
         {/* One global toast portal. richColors keeps success green /
             error red consistent with our semantic tokens. */}
         <Toaster richColors position="top-center" />
+        <Analytics />
       </body>
     </html>
   );
