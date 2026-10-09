@@ -21,8 +21,8 @@ export function DeleteAccountCard() {
           This removes your profile, takes you out of your groups and
           everyone&rsquo;s friend lists, and cancels your pending requests.
           Messages you sent stay in their chats, shown as
-          &ldquo;Deleted User&rdquo;. Deleted data cannot be recovered — signing
-          in again later starts a brand-new, empty account.
+          &ldquo;Deleted User&rdquo;. Deleted data cannot be recovered, signing
+          in again starts a brand-new, empty account.
         </p>
         <div className="mt-4 font-['Times_New_Roman']">
           <TypedConfirmDialog
