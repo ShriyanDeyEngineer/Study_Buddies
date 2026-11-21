@@ -48,7 +48,7 @@
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.9",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "overrides": {
     "sharp": "^0.35.2",
